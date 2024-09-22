@@ -2,3 +2,4 @@
 - Varun Giridhar
 - Abhinaya (Abhi) Karthana
 - Justin Cruz
+- Rohit Hari
