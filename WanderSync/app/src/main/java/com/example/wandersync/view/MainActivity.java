@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.example.wandersync.R;
 
 public class MainActivity extends AppCompatActivity {
-
+    // TODO: Abhi splash screen or welcome screen here
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
