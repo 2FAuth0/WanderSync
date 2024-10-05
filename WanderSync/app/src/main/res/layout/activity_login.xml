@@ -16,11 +16,11 @@
         android:textSize="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/userNameInput"
+        app:layout_constraintBottom_toTopOf="@+id/userNameInputLayout"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/userNameInput"
+        android:id="@+id/userNameInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
@@ -29,21 +29,23 @@
         app:layout_constraintTop_toBottomOf="@id/textView">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/userNameInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="User name" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/passwordInput"
+        android:id="@+id/passwordInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userNameInput">
+        app:layout_constraintTop_toBottomOf="@+id/userNameInputLayout">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/passwordInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
@@ -62,7 +64,7 @@
         android:textColor="#f00"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordInput" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordInputLayout" />
     <Button
         android:id="@+id/buttonLogin"
         android:layout_width="match_parent"

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.wandersync.R;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
@@ -20,8 +21,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        EditText userNameInput = findViewById(R.id.userNameInput);
-        EditText passwordInput = findViewById(R.id.passwordInput);
+        TextInputEditText userNameInput = findViewById(R.id.userNameInput);
+        TextInputEditText passwordInput = findViewById(R.id.passwordInput);
 
         Button loginButton = findViewById(R.id.buttonLogin);
         Button createAccountButton = findViewById(R.id.buttonCreateAccount);
