@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.wandersync.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -32,14 +33,26 @@ public class LoginActivity extends AppCompatActivity {
                 String userName = userNameInput.getText().toString();
                 String password = passwordInput.getText().toString();
 
-                if (true) { // TODO: for Justin, Replace true with authentication logic
-                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                    startActivity(intent);
+                if (!userName.isEmpty() && !password.isEmpty()) {
+                    // Replace `true` with Firebase Authentication logic
+                    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                    mAuth.signInWithEmailAndPassword(userName, password)
+                            .addOnCompleteListener(LoginActivity.this, task -> {
+                                if (task.isSuccessful()) {
+                                    // Login success, go to HomeActivity
+                                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                    startActivity(intent);
+                                    finish(); // Close the LoginActivity
+                                } else {
+                                    // Login failed, show error
+                                    TextView errorMessage = findViewById(R.id.errorMessage);
+                                    errorMessage.setText("Authentication failed: " + task.getException().getMessage());
+                                }
+                            });
                 } else {
                     TextView errorMessage = findViewById(R.id.errorMessage);
-                    errorMessage.setText("Username or Password is Incorrect");
+                    errorMessage.setText("Please enter both username and password");
                 }
-
             }
         });
 
