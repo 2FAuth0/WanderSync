@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "410563104286",
+    "project_id": "wandersync-749fb",
+    "storage_bucket": "wandersync-749fb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:410563104286:android:38ddae5c87f63d2f83a80f",
+        "android_client_info": {
+          "package_name": "com.example.wandersync"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChMr0WOlS-VLSAmmXYywoyrip5dMhcN-E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
