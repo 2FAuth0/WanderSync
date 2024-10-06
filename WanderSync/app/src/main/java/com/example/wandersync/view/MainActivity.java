@@ -48,24 +48,35 @@ public class MainActivity extends AppCompatActivity {
 //        binding.setVariable(BR.viewModel, viewModel);
 //        binding.setLifecycleOwner(this);
          // Initializes Firebase Auth
-        myAuth = FirebaseAuth.getInstance();
+//        myAuth = FirebaseAuth.getInstance();
+//
+//        FirebaseUser currentUser = myAuth.getCurrentUser();
+//        if (currentUser == null) {
+//            // No user is signed in, redirect to LoginActivity
+//            Intent intent = new Intent(MainActivity.this, LoginActivity2.class);
+//            startActivity(intent);
+//            finish(); // Close MainActivity
+//        } else {
+//            // User is signed in, show a welcome message or set up the home UI
+//            Toast.makeText(MainActivity.this, "Welcome, " + currentUser.getEmail(), Toast.LENGTH_SHORT).show();
+//        }
+//
+//        // Initializes Firebase Database
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference myRef = database.getReference("users"); // This is just an example reference
 
-        FirebaseUser currentUser = myAuth.getCurrentUser();
-        if (currentUser == null) {
-            // No user is signed in, redirect to LoginActivity
-            Intent intent = new Intent(MainActivity.this, LoginActivity2.class);
-            startActivity(intent);
-            finish(); // Close MainActivity
-        } else {
-            // User is signed in, show a welcome message or set up the home UI
-            Toast.makeText(MainActivity.this, "Welcome, " + currentUser.getEmail(), Toast.LENGTH_SHORT).show();
-        }
-
-        // Initializes Firebase Database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("users"); // This is just an example reference
 
         // TODO: Add methods for reading/writing data in the future
+
+        Button signInButton = findViewById(R.id.btn_signIn);
+
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, LoginActivity2.class);
+                startActivity(intent);
+            }
+        });
         //find button by id
         Button exitButton = findViewById(R.id.btn_exit);
         exitButton.setPaintFlags(exitButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
