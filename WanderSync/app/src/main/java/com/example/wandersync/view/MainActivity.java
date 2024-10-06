@@ -18,12 +18,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import com.example.wandersync.R;
 import com.example.wandersync.viewmodel.LoginViewModel;
 
 public class MainActivity extends AppCompatActivity {
     // TODO: Abhi splash screen or welcome screen here
     private final String TAG = "MainActivity";
+    private FirebaseAuth myAuth;
+  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,21 +47,25 @@ public class MainActivity extends AppCompatActivity {
         //LoginViewModel viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 //        binding.setVariable(BR.viewModel, viewModel);
 //        binding.setLifecycleOwner(this);
+         // Initializes Firebase Auth
+        myAuth = FirebaseAuth.getInstance();
 
-        //find button by id
-        Button signInButton = findViewById(R.id.btn_signIn);
+        FirebaseUser currentUser = myAuth.getCurrentUser();
+        if (currentUser == null) {
+            // No user is signed in, redirect to LoginActivity
+            Intent intent = new Intent(MainActivity.this, LoginActivity2.class);
+            startActivity(intent);
+            finish(); // Close MainActivity
+        } else {
+            // User is signed in, show a welcome message or set up the home UI
+            Toast.makeText(MainActivity.this, "Welcome, " + currentUser.getEmail(), Toast.LENGTH_SHORT).show();
+        }
 
-        //set an on clock listened to the button
-        signInButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                //create intent
-                Intent intent = new Intent(MainActivity.this, LoginActivity2.class);
+        // Initializes Firebase Database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("users"); // This is just an example reference
 
-                startActivity(intent);
-            }
-        });
-
+        // TODO: Add methods for reading/writing data in the future
         //find button by id
         Button exitButton = findViewById(R.id.btn_exit);
         exitButton.setPaintFlags(exitButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -70,33 +82,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onStart(){
-        super.onStart();
-        Log.d(TAG, "onStart called");
+    // Signs out current user
+    public void signOut() {
+        myAuth.signOut();
+        updateUI(null); // TODO: Handle sign out UI
     }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-        Log.d(TAG, "onResume called");
-    }
-
-    @Override
-    protected void onPause(){
-        super.onPause();
-        Log.d(TAG, "onPause called");
-    }
-
-    @Override
-    protected void onStop(){
-        super.onStop();
-        Log.d(TAG, "onStop called");
-    }
-
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        Log.d(TAG, "onDestroy called");
+    // TODO: Update UI Method to handle UI changes once the user signs in or signs out (if needed)
+    private void updateUI(FirebaseUser user) {
+        // TODO: Implement UI updates
+        if (user != null) {
+            // User is signed in
+        } else {
+            // User is signed out
+        }
     }
 }
