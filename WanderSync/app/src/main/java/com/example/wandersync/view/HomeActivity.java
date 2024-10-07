@@ -16,7 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
     ActivityMainBinding binding;
-
+    //TODO: MVVM binding for future
     @Override
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
