@@ -1,6 +1,7 @@
 package com.example.wandersync.model;
 
 public class User {
+    private String name;
     private String email;
     private String password;
 
@@ -9,6 +10,7 @@ public class User {
         this.password = password;
     }
 
+    public String getName() { return name; }
     public String getEmail() {
         return email;
     }
