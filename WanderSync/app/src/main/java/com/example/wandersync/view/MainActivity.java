@@ -31,6 +31,7 @@ import com.example.wandersync.R;
 import com.example.wandersync.viewmodel.LoginViewModel;
 import com.google.firebase.database.ValueEventListener;
 
+//Tagging for Sprint 1
 public class MainActivity extends AppCompatActivity {
     // TODO: Abhi splash screen or welcome screen here
     private final String TAG = "MainActivity";
