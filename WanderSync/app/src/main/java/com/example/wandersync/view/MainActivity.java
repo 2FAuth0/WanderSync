@@ -31,7 +31,7 @@ import com.example.wandersync.R;
 import com.example.wandersync.viewmodel.LoginViewModel;
 import com.google.firebase.database.ValueEventListener;
 
-//Tagging for Sprint 1
+//Tagging for Sprint 1 "git fetch --all --tags", "git checkout sprint1"
 public class MainActivity extends AppCompatActivity {
     // TODO: Abhi splash screen or welcome screen here
     private final String TAG = "MainActivity";
