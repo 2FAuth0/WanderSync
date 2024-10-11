@@ -15,4 +15,8 @@ public abstract class Task {
 
 
     public abstract int getDue_date();
+
+    public void setStatus(String s) {
+        this.status = s;
+    }
 }
