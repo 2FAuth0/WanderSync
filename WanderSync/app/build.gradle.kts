@@ -1,3 +1,7 @@
+import java.net.URI;
+
+
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.gms.google.services)
@@ -38,6 +42,9 @@ android {
     }
 }
 
+//repositories {
+//    maven { url = URI.create("https://jitpack.io") }
+//}
 dependencies {
 
     implementation(libs.appcompat)
@@ -52,4 +59,5 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation(platform("com.google.firebase:firebase-bom:33.4.0"))
     implementation("com.google.firebase:firebase-analytics")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }
