@@ -38,23 +38,28 @@ public class LoginActivity extends AppCompatActivity {
                     // Replace `true` with Firebase Authentication logic
                     FirebaseAuth mAuth = FirebaseAuth.getInstance();
                     mAuth.signInWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(LoginActivity.this, task -> {
-                                if (task.isSuccessful()) {
-                                    // Login success, go to HomeActivity
-                                    Toast.makeText(LoginActivity.this, "Welcome, " + email, Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                    startActivity(intent);
-                                    finish(); // Close the LoginActivity
+                        .addOnCompleteListener(LoginActivity.this, task -> {
+                            if (task.isSuccessful()) {
+                                // Login success, go to HomeActivity
+                                Toast.makeText(LoginActivity.this,
+                                        "Welcome, " + email,
+                                        Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                startActivity(intent);
+                                finish(); // Close the LoginActivity
+                            } else {
+                                // Login failed, show error
+                                TextView errorMessage = findViewById(R.id.errorMessage);
+                                if (task.getException().getMessage()
+                                    .equals("The supplied auth credential is incorrect, "
+                                            + "malformed or has expired.")) {
+                                    errorMessage.setText("Given email or password is incorrect");
                                 } else {
-                                    // Login failed, show error
-                                    TextView errorMessage = findViewById(R.id.errorMessage);
-                                    if (task.getException().getMessage().equals("The supplied auth credential is incorrect, malformed or has expired.")) {
-                                        errorMessage.setText("Given email or password is incorrect");
-                                    } else {
-                                        errorMessage.setText("Authentication failed: " + task.getException().getMessage());
-                                    }
+                                    errorMessage.setText("Authentication failed: "
+                                            + task.getException().getMessage());
                                 }
-                            });
+                            }
+                        });
                 } else {
                     TextView errorMessage = findViewById(R.id.errorMessage);
                     errorMessage.setText("Please enter both username and password");

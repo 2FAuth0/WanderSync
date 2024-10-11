@@ -1,47 +1,19 @@
 public abstract class Task {
-    private String title;
-    private String description;
-    private String due_date;
-    private String status;
-    private String priority;
+    protected String title;
+    protected String description;
+    protected int due_date;
+    protected String status;
+    protected String priority;
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
+    public Task(String title,String description,String status, int due_date, String priority) {
         this.description = description;
-    }
-
-    public String getDue_date() {
-        return due_date;
-    }
-
-    public void setDue_date(String due_date) {
-        this.due_date = due_date;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
+        this.title = title;
         this.status = status;
-    }
-
-    public String getPriority() {
-        return priority;
-    }
-
-    public void setPriority(String priority) {
+        this.due_date = due_date;
         this.priority = priority;
     }
+
+
+    public abstract int getDue_date();
+
 }
