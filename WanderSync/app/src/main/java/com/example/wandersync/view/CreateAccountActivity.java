@@ -35,19 +35,22 @@ public class CreateAccountActivity extends AppCompatActivity {
                     // Replace `true` with Firebase Authentication logic
                     FirebaseAuth mAuth = FirebaseAuth.getInstance();
                     mAuth.createUserWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(CreateAccountActivity.this, task -> {
-                                if (task.isSuccessful()) {
-                                    // Login success, go to HomeActivity
-                                    Toast.makeText(CreateAccountActivity.this, "Welcome, " + email, Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(CreateAccountActivity.this, HomeActivity.class);
-                                    startActivity(intent);
-                                    finish(); // Close the LoginActivity
-                                } else {
-                                    // Login failed, show error
-                                    TextView errorMessage = findViewById(R.id.errorMessage);
-                                    errorMessage.setText("Authentication failed: " + task.getException().getMessage());
-                                }
-                            });
+                        .addOnCompleteListener(CreateAccountActivity.this, task -> {
+                            if (task.isSuccessful()) {
+                                // Login success, go to HomeActivity
+                                Toast.makeText(CreateAccountActivity.this,
+                                        "Welcome, " + email, Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(CreateAccountActivity.this,
+                                        HomeActivity.class);
+                                startActivity(intent);
+                                finish(); // Close the LoginActivity
+                            } else {
+                                // Login failed, show error
+                                TextView errorMessage = findViewById(R.id.errorMessage);
+                                errorMessage.setText("Authentication failed: "
+                                        + task.getException().getMessage());
+                            }
+                        });
                 } else {
                     TextView errorMessage = findViewById(R.id.errorMessage);
                     errorMessage.setText("Please enter both username and password");
