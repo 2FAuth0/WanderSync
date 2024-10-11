@@ -15,5 +15,4 @@ public abstract class Task {
 
 
     public abstract int getDue_date();
-
 }
