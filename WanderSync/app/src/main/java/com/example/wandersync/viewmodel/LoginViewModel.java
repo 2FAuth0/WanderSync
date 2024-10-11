@@ -1,2 +1,5 @@
-package com.example.wandersync.viewmodel;public class LoginViewModel {
+package com.example.wandersync.viewmodel;
+
+public class LoginViewModel {
+
 }
