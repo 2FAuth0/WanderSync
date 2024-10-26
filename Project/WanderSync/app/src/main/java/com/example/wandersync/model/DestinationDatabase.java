@@ -49,6 +49,7 @@ public class DestinationDatabase {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Handle potential errors here
+                Log.e("DestinationDatabase", "Error reading data: " + databaseError.getMessage());
             }
         });
         return travelLogsLiveData;
