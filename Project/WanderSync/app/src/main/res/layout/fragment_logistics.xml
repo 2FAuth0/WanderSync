@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <!--TODO: Abhi - Add nav bar to each page -->
+    <!--This page is for the "Home Activity", and is not a fragment -->
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"

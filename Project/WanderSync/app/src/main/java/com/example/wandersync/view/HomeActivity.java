@@ -21,6 +21,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
+        //setContentView(binding.getRoot());
         setContentView(R.layout.fragment_logistics);
 
         BottomNavigationView menuBar = findViewById(R.id.bottom_nav);
