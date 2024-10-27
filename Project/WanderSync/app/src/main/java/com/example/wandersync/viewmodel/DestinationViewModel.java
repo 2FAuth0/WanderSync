@@ -2,6 +2,7 @@ package com.example.wandersync.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import com.example.wandersync.model.DestinationDatabase;
@@ -13,10 +14,22 @@ import java.util.List;
 public class DestinationViewModel extends ViewModel {
     private LiveData<List<TravelLog>> travelLogsLiveData;
     private DestinationDatabase database;
+    private MutableLiveData<Integer> allottedDays = new MutableLiveData<>(21); // Example default value
+    private LiveData<Integer> plannedDays = new MutableLiveData<>();
 
     public DestinationViewModel() {
         database = DestinationDatabase.getInstance();
         travelLogsLiveData = database.getTravelLogsLiveData();
+
+        // Calculated allotted days whenever live data changes
+        plannedDays = Transformations.map(travelLogsLiveData, travelLogs -> {
+            int totalPlannedDays = 0;
+            for (TravelLog log : travelLogs) {
+                totalPlannedDays += Integer.parseInt(log.getDuration());
+            }
+            return totalPlannedDays;
+        });
+
     }
 
     public LiveData<List<TravelLog>> getTravelLogs() {
@@ -30,4 +43,16 @@ public class DestinationViewModel extends ViewModel {
     }
 
     // Add methods to retrieve travel logs from the database
+
+    public LiveData<Integer> getAllottedDays() {
+        return allottedDays;
+    }
+
+    public LiveData<Integer> getPlannedDays() {
+        return plannedDays;
+    }
+
+    public void setAllottedDays(int days) {
+        allottedDays.setValue(days);
+    }
 }
