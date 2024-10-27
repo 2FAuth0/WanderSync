@@ -1,31 +1,30 @@
 package com.example.wandersync.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class User {
-    private String name;
     private String email;
-    private String password;
     private String id;
+    private List<VacationTime> allottedVacation;
 
-    public User() {}
+    public User() {
+        // Default constructor required for calls to DataSnapshot.getValue(User.class)
+    }
 
-    public User(String email, String password) {
+    public User(String email, String id) {
         this.email = email;
-        this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setID(String id) {
         this.id = id;
+        this.allottedVacation = new ArrayList<>();
     }
+
+    public void addVacationTime(VacationTime v) {
+        allottedVacation.add(v);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+
 }
