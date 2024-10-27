@@ -7,20 +7,21 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.wandersync.model.DestinationDatabase;
 import com.example.wandersync.model.TravelLog;
+import com.example.wandersync.model.UserDatabase;
+import com.example.wandersync.model.VacationTime;
 
 import java.util.List;
 
 public class DestinationViewModel extends ViewModel {
     private LiveData<List<TravelLog>> travelLogsLiveData;
-    private DestinationDatabase database;
-    private MutableLiveData<Integer> allottedDays =
-            new MutableLiveData<>(21); // Example default value
-    private LiveData<Integer> plannedDays =
-            new MutableLiveData<>();
+    private DestinationDatabase destinationDatabase;
+    private MutableLiveData<Integer> allottedDays = new MutableLiveData<>(21); // Example default value
+    private LiveData<Integer> plannedDays = new MutableLiveData<>();
+
 
     public DestinationViewModel() {
-        database = DestinationDatabase.getInstance();
-        travelLogsLiveData = database.getTravelLogsLiveData();
+        destinationDatabase = DestinationDatabase.getInstance();
+        travelLogsLiveData = destinationDatabase.getTravelLogsLiveData();
 
         // Calculated allotted days whenever live data changes
         plannedDays = Transformations.map(travelLogsLiveData, travelLogs -> {
@@ -39,9 +40,11 @@ public class DestinationViewModel extends ViewModel {
 
     public void addTravelLog(String location, String startDate, String endDate, String duration) {
         TravelLog travelLog = new TravelLog(null, location, startDate, endDate, duration);
-        database.addTravelLog(travelLog);
+        destinationDatabase.addTravelLog(travelLog);
         // Update the live data list if needed (you might need to fetch from Firebase)
     }
+
+
 
     // Add methods to retrieve travel logs from the database
 
