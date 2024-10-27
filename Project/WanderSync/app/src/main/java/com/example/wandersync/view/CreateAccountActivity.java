@@ -10,8 +10,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.wandersync.R;
+import com.example.wandersync.model.User;
+import com.example.wandersync.model.UserDatabase;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class CreateAccountActivity extends AppCompatActivity {
 
@@ -37,6 +40,15 @@ public class CreateAccountActivity extends AppCompatActivity {
                     mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(CreateAccountActivity.this, task -> {
                             if (task.isSuccessful()) {
+                                // Account created, get Firebase UID
+                                FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                                if (firebaseUser != null) {
+                                    String uid = firebaseUser.getUid();
+                                    User user = new User (email, password);
+                                    user.setID(uid);
+                                    // Saving user to UserDatabase with user's uid
+                                    UserDatabase.getInstance().addUser(user);
+                                }
                                 // Login success, go to HomeActivity
                                 Toast.makeText(CreateAccountActivity.this,
                                         "Welcome, " + email, Toast.LENGTH_SHORT).show();
