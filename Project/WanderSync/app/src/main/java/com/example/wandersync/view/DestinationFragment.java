@@ -32,10 +32,25 @@ import com.example.wandersync.viewmodel.DestinationViewModel;
 public class DestinationFragment extends Fragment {
 
     // UI Elements
-    private TextView textViewTitle, durationTextView;
-    private Button buttonOpenLogForm, buttonCancelDuration, buttonCalculateDuration, buttonCancelLog, buttonSubmitLog, buttonOpenCalculateDurationForm;
-    private LinearLayout logForm, calculateDurationForm;
-    private EditText inputLocation, inputStartDate, inputEndDate, inputVacationStart, inputVacationEnd;
+    private TextView textViewTitle;
+    private TextView durationTextView;
+
+    private Button buttonOpenLogForm;
+    private Button buttonCancelDuration;
+    private Button buttonCalculateDuration;
+    private Button buttonCancelLog;
+    private Button buttonSubmitLog;
+    private Button buttonOpenCalculateDurationForm;
+
+    private LinearLayout logForm;
+    private LinearLayout calculateDurationForm;
+
+    private EditText inputLocation;
+    private EditText inputStartDate;
+    private EditText inputEndDate;
+    private EditText inputVacationStart;
+    private EditText inputVacationEnd;
+
     private RecyclerView recyclerTravelLogs;
     private DestinationViewModel viewModel;
 
@@ -63,7 +78,10 @@ public class DestinationFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(
+            LayoutInflater inflater,
+            ViewGroup container,
+            Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_destination, container, false);
 
@@ -76,7 +94,8 @@ public class DestinationFragment extends Fragment {
         buttonSubmitLog = view.findViewById(R.id.button_submit_log);
         buttonCancelDuration = view.findViewById(R.id.button_cancel_duration_form);
         buttonCalculateDuration = view.findViewById(R.id.button_calculate_duration);
-        buttonOpenCalculateDurationForm = view.findViewById(R.id.button_open_calculate_duration_form);
+        buttonOpenCalculateDurationForm =
+                view.findViewById(R.id.button_open_calculate_duration_form);
 
 
         logForm = view.findViewById(R.id.log_form);
@@ -168,7 +187,7 @@ public class DestinationFragment extends Fragment {
 
         return view;
     }
-    private boolean areDatesValid(String startDate, String endDate) {
+    public boolean areDatesValid(String startDate, String endDate) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         sdf.setLenient(false);
 
@@ -179,10 +198,14 @@ public class DestinationFragment extends Fragment {
             if (start != null && end != null && start.before(end)) {
                 return true; // Dates are valid
             } else {
-                Toast.makeText(getContext(), "End date must be after start date", Toast.LENGTH_SHORT).show();
+                Toast.makeText(
+                        getContext(),
+                        "End date must be after start date", Toast.LENGTH_SHORT).show();
             }
         } catch (ParseException e) {
-            Toast.makeText(getContext(), "Invalid date format. Use YYYY-MM-DD", Toast.LENGTH_SHORT).show();
+            Toast.makeText(
+                    getContext(),
+                    "Invalid date format. Use YYYY-MM-DD", Toast.LENGTH_SHORT).show();
         }
 
         return false; // Dates are not valid

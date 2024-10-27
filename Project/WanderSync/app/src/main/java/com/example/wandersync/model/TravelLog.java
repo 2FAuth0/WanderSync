@@ -11,7 +11,12 @@ public class TravelLog {
         // Default constructor required for calls to DataSnapshot.getValue(TravelLog.class)
     }
 
-    public TravelLog(String id, String location, String startDate, String endDate, String duration) {
+    public TravelLog(
+            String id,
+            String location,
+            String startDate,
+            String endDate,
+            String duration) {
         this.id = id;
         this.location = location;
         this.startDate = startDate;
