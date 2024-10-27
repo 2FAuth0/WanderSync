@@ -8,14 +8,15 @@ import androidx.lifecycle.ViewModel;
 import com.example.wandersync.model.DestinationDatabase;
 import com.example.wandersync.model.TravelLog;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DestinationViewModel extends ViewModel {
     private LiveData<List<TravelLog>> travelLogsLiveData;
     private DestinationDatabase database;
-    private MutableLiveData<Integer> allottedDays = new MutableLiveData<>(21); // Example default value
-    private LiveData<Integer> plannedDays = new MutableLiveData<>();
+    private MutableLiveData<Integer> allottedDays =
+            new MutableLiveData<>(21); // Example default value
+    private LiveData<Integer> plannedDays =
+            new MutableLiveData<>();
 
     public DestinationViewModel() {
         database = DestinationDatabase.getInstance();

@@ -45,12 +45,21 @@ public class TravelLogAdapter extends RecyclerView.Adapter<TravelLogAdapter.Trav
     }
 
     static class TravelLogViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewLocation, textViewDuration;
+        private TextView textViewLocation;
+        private TextView textViewDuration;
 
         TravelLogViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewLocation = itemView.findViewById(R.id.textViewLocation);
             textViewDuration = itemView.findViewById(R.id.textViewDuration);
+        }
+
+        public TextView getTextViewLocation() {
+            return textViewLocation;
+        }
+
+        public TextView getTextViewDuration() {
+            return textViewDuration;
         }
     }
 }
