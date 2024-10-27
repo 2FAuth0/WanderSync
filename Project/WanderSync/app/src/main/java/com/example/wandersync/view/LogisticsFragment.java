@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.wandersync.R;
+import com.example.wandersync.viewmodel.DestinationViewModel;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -20,8 +22,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,6 +38,7 @@ public class LogisticsFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private DestinationViewModel destinationViewModel;
 
     FirebaseUser user;
     PieChart pieChart;
@@ -82,7 +83,6 @@ public class LogisticsFragment extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
         pieChart = view.findViewById(R.id.piechart);
         initPieChart();
-        showPieChart();
         Button showChart = view.findViewById(R.id.btn_graph);
 
         showChart.setOnClickListener(new View.OnClickListener() {
@@ -91,49 +91,20 @@ public class LogisticsFragment extends Fragment {
                 pieChart.setVisibility(View.VISIBLE);
             }
         });
+        destinationViewModel = new ViewModelProvider(this).get(DestinationViewModel.class);
+        destinationViewModel.getAllottedDays().observe(getViewLifecycleOwner(), allotted -> {
+            int planned = destinationViewModel.getPlannedDays().getValue() != null ? destinationViewModel.getPlannedDays().getValue() : 0;
+            updatePieChart(allotted, planned);
+        });
+
+        destinationViewModel.getPlannedDays().observe(getViewLifecycleOwner(), planned -> {
+            int allotted = destinationViewModel.getAllottedDays().getValue() != null ? destinationViewModel.getAllottedDays().getValue() : 100;
+            updatePieChart(allotted, planned);
+        });
+
         return view;
     }
 
-    // TODO: Replace "total" and "planned" from database
-    private void showPieChart(){
-
-        ArrayList<PieEntry> pieEntries = new ArrayList<>();
-        String label = "Allotted vs Planned";
-
-        //change these two
-        int allotted = 100;
-        int planned = 60;
-
-        //initializing data
-        Map<String, Integer> typeAmountMap = new HashMap<>();
-        typeAmountMap.put("Planned Days", planned);
-        typeAmountMap.put("Remaining", allotted - planned);
-
-        //initializing colors for the entries
-        ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(Color.parseColor("#50C878"));
-        colors.add(Color.parseColor("#D3D3D3"));
-
-        //input data and fit data into pie chart entry
-        for (String type: typeAmountMap.keySet()) {
-            pieEntries.add(new PieEntry(typeAmountMap.get(type).floatValue(), type));
-        }
-
-        //collecting the entries with label name
-        PieDataSet pieDataSet = new PieDataSet(pieEntries,label);
-        //setting text size of the value
-        pieDataSet.setValueTextSize(12f);
-        //providing color list for coloring different entries
-        pieDataSet.setColors(colors);
-        //grouping the data set from entry to chart
-        PieData pieData = new PieData(pieDataSet);
-        //showing the value of the entries, default true if not set
-        pieData.setDrawValues(true);
-
-
-        pieChart.setData(pieData);
-        pieChart.invalidate();
-    }
 
     private void initPieChart(){
         //using percentage as values instead of amount
@@ -157,4 +128,22 @@ public class LogisticsFragment extends Fragment {
         //pieChart.setHoleColor(Color.parseColor("#000000"));
 
     }
+
+    private void updatePieChart(int allotted, int planned) {
+        ArrayList<PieEntry> pieEntries = new ArrayList<>();
+        String label = "Allotted vs Planned";
+
+        pieEntries.add(new PieEntry(planned, "Planned Days"));
+        pieEntries.add(new PieEntry(allotted - planned, "Remaining"));
+
+        // Set up data and colors
+        PieDataSet pieDataSet = new PieDataSet(pieEntries, label);
+        pieDataSet.setColors(Color.parseColor("#50C878"), Color.parseColor("#D3D3D3"));
+        PieData pieData = new PieData(pieDataSet);
+        pieData.setDrawValues(true);
+
+        pieChart.setData(pieData);
+        pieChart.invalidate(); // Refresh chart
+    }
+
 }
