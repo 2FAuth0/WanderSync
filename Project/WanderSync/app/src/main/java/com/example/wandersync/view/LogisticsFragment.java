@@ -24,6 +24,7 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -51,6 +52,8 @@ public class LogisticsFragment extends Fragment {
     private FirebaseUser user;
     private PieChart pieChart;
     private RecyclerView recyclerTravelLogs;
+    private FloatingActionButton invite;
+    private FloatingActionButton takeNotes;
 
 
     public LogisticsFragment() {
@@ -91,6 +94,14 @@ public class LogisticsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_logistics_edit, container, false);
         user = FirebaseAuth.getInstance().getCurrentUser();
+        invite = view.findViewById(R.id.invite_users);
+        invite.setOnClickListener(v -> {
+
+        });
+        takeNotes = view.findViewById(R.id.add_notes);
+        takeNotes.setOnClickListener(v -> {
+
+        });
 
         recyclerTravelLogs = view.findViewById(R.id.trip_contributors);
 //        recyclerTravelLogs.setLayoutManager(new LinearLayoutManager(getContext()));
