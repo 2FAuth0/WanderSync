@@ -56,12 +56,14 @@
             android:layout_marginTop="16dp" />
 
         <!-- RecyclerView below Contributors -->
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/trip_contributors"
             android:layout_width="348dp"
             android:layout_height="201dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_contributors" />
 
@@ -84,6 +86,68 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginBottom="100dp"
             android:layout_marginLeft="16dp" />
+
+        <LinearLayout
+            android:id="@+id/add_notes_form"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical"
+            android:padding="16dp"
+
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/add_notes"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <EditText
+                android:id="@+id/enter_notes"
+                android:layout_width="180dp"
+                android:layout_height="56dp"
+                android:hint="Type note..."
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="446dp" />
+
+            <Button
+                android:id="@+id/btn_add_note"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Note"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                app:layout_constraintTop_toBottomOf="@id/input_user" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/invite_users_form"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="196dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical"
+            android:padding="16dp"
+
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/invite_users"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <EditText
+                android:id="@+id/input_user"
+                android:layout_width="180dp"
+                android:layout_height="56dp"
+                android:hint="Invite User"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="446dp" />
+
+            <Button
+                android:id="@+id/btn_invite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Invite"
+                android:textColor="@color/white"
+                app:layout_constraintTop_toBottomOf="@id/input_user" />
+        </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
