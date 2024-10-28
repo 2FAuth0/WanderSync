@@ -8,21 +8,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.wandersync.R;
-import com.example.wandersync.model.User;
-import com.example.wandersync.model.UserDatabase;
+import com.example.wandersync.viewmodel.UserViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class CreateAccountActivity extends AppCompatActivity {
+    private UserViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
-
+        viewModel = new ViewModelProvider(this).get(UserViewModel.class);
         TextInputEditText emailInput = findViewById(R.id.emailInput);
         TextInputEditText passwordInput = findViewById(R.id.passwordInput);
         Button submitButton = findViewById(R.id.buttonSubmit);
@@ -40,15 +41,8 @@ public class CreateAccountActivity extends AppCompatActivity {
                     mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(CreateAccountActivity.this, task -> {
                             if (task.isSuccessful()) {
-                                // Account created, get Firebase UID
-                                FirebaseUser firebaseUser = mAuth.getCurrentUser();
-                                if (firebaseUser != null) {
-                                    String uid = firebaseUser.getUid();
-                                    User user = new User (email, password);
-                                    user.setID(uid);
-                                    // Saving user to UserDatabase with user's uid
-                                    UserDatabase.getInstance().addUser(user);
-                                }
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                viewModel.addUser(email, user);
                                 // Login success, go to HomeActivity
                                 Toast.makeText(CreateAccountActivity.this,
                                         "Welcome, " + email, Toast.LENGTH_SHORT).show();

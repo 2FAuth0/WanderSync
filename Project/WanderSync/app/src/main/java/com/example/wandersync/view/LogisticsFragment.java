@@ -15,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.example.wandersync.R;
 import com.example.wandersync.model.TravelLog;
@@ -39,21 +41,19 @@ import java.util.List;
  */
 public class LogisticsFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
     private DestinationViewModel destinationViewModel;
 
     private FirebaseUser user;
     private PieChart pieChart;
-    private RecyclerView recyclerTravelLogs;
+//    private RecyclerView recyclerTravelLogs;
     private FloatingActionButton invite;
     private FloatingActionButton takeNotes;
+    private EditText notesText;
+    private EditText userToInvite;
+    private Button addNote;
+    private Button sendInvite;
+    private LinearLayout notesForm;
+    private LinearLayout inviteForm;
 
 
     public LogisticsFragment() {
@@ -72,8 +72,6 @@ public class LogisticsFragment extends Fragment {
     public static LogisticsFragment newInstance(String param1, String param2) {
         LogisticsFragment fragment = new LogisticsFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -81,10 +79,6 @@ public class LogisticsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     // TODO: update with contributors of a trip
@@ -94,27 +88,38 @@ public class LogisticsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_logistics_edit, container, false);
         user = FirebaseAuth.getInstance().getCurrentUser();
-        invite = view.findViewById(R.id.invite_users);
-        invite.setOnClickListener(v -> {
 
+        notesText = view.findViewById(R.id.enter_notes);
+        userToInvite = view.findViewById(R.id.input_user);
+        addNote = view.findViewById(R.id.btn_add_note);
+        sendInvite = view.findViewById(R.id.btn_invite);
+        invite = view.findViewById(R.id.invite_users);
+        notesForm = view.findViewById(R.id.add_notes_form);
+        inviteForm = view.findViewById(R.id.invite_users_form);
+
+        invite.setOnClickListener(v -> {
+            if (inviteForm.getVisibility() == View.GONE) {
+                inviteForm.setVisibility(View.VISIBLE);
+            } else inviteForm.setVisibility(View.GONE);
+            if (notesForm.getVisibility() == View.VISIBLE) {
+                notesForm.setVisibility(View.GONE);
+            }
         });
+        sendInvite.setOnClickListener(v -> {
+            destinationViewModel.addUserToTravelLog(String.valueOf(userToInvite.getText()));
+        });
+
+
         takeNotes = view.findViewById(R.id.add_notes);
         takeNotes.setOnClickListener(v -> {
-
+            if (notesForm.getVisibility() == View.GONE) {
+                notesForm.setVisibility(View.VISIBLE);
+            }
+            else notesForm.setVisibility(View.GONE);
+            if (inviteForm.getVisibility() == View.VISIBLE) {
+                inviteForm.setVisibility(View.GONE);
+            }
         });
-
-        recyclerTravelLogs = view.findViewById(R.id.trip_contributors);
-//        recyclerTravelLogs.setLayoutManager(new LinearLayoutManager(getContext()));
-//
-//        TravelLogAdapter adapter = new TravelLogAdapter(new ArrayList<>());
-//        recyclerTravelLogs.setAdapter(adapter);
-//
-//        destinationViewModel.getTravelLogs().observe(getViewLifecycleOwner(), new Observer<List<TravelLog>>() {
-//            @Override
-//            public void onChanged(List<TravelLog> travelLogs) {
-//                adapter.setTravelLogs(travelLogs);
-//            }
-//        });
 
         pieChart = view.findViewById(R.id.piechart);
         initPieChart();

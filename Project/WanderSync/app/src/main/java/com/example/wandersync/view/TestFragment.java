@@ -25,6 +25,9 @@ public class TestFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private int pieChartVisibility = View.GONE;
+    private int form1Visibility = View.GONE;
+    private int form2Visibility = View.GONE;
 
     public TestFragment() {
         // Required empty public constructor
@@ -62,5 +65,38 @@ public class TestFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_test, container, false);
+    }
+
+
+    public void togglePieChartVisibility() {
+        pieChartVisibility = (pieChartVisibility == View.VISIBLE) ? View.GONE : View.VISIBLE;
+    }
+
+    public int getPieChartVisibility() {
+        return pieChartVisibility;
+    }
+
+
+
+    public void toggleForm1() {
+        form1Visibility = (form1Visibility == View.VISIBLE) ? View.GONE : View.VISIBLE;
+        if (form1Visibility == View.VISIBLE) {
+            form2Visibility = View.GONE;
+        }
+    }
+
+    public void toggleForm2() {
+        form2Visibility = (form2Visibility == View.VISIBLE) ? View.GONE : View.VISIBLE;
+        if (form2Visibility == View.VISIBLE) {
+            form1Visibility = View.GONE;
+        }
+    }
+
+    public int getForm1Visibility() {
+        return form1Visibility;
+    }
+
+    public int getForm2Visibility() {
+        return form2Visibility;
     }
 }
