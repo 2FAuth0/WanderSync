@@ -41,14 +41,6 @@ import java.util.List;
  */
 public class LogisticsFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
     private DestinationViewModel destinationViewModel;
 
     private FirebaseUser user;
@@ -80,8 +72,6 @@ public class LogisticsFragment extends Fragment {
     public static LogisticsFragment newInstance(String param1, String param2) {
         LogisticsFragment fragment = new LogisticsFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -89,10 +79,6 @@ public class LogisticsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     // TODO: update with contributors of a trip
@@ -119,6 +105,11 @@ public class LogisticsFragment extends Fragment {
                 notesForm.setVisibility(View.GONE);
             }
         });
+        sendInvite.setOnClickListener(v -> {
+            destinationViewModel.addUserToTravelLog(String.valueOf(userToInvite.getText()));
+        });
+
+
         takeNotes = view.findViewById(R.id.add_notes);
         takeNotes.setOnClickListener(v -> {
             if (notesForm.getVisibility() == View.GONE) {
@@ -129,19 +120,6 @@ public class LogisticsFragment extends Fragment {
                 inviteForm.setVisibility(View.GONE);
             }
         });
-
-//        recyclerTravelLogs = view.findViewById(R.id.trip_contributors);
-//        recyclerTravelLogs.setLayoutManager(new LinearLayoutManager(getContext()));
-//
-//        TravelLogAdapter adapter = new TravelLogAdapter(new ArrayList<>());
-//        recyclerTravelLogs.setAdapter(adapter);
-//
-//        destinationViewModel.getTravelLogs().observe(getViewLifecycleOwner(), new Observer<List<TravelLog>>() {
-//            @Override
-//            public void onChanged(List<TravelLog> travelLogs) {
-//                adapter.setTravelLogs(travelLogs);
-//            }
-//        });
 
         pieChart = view.findViewById(R.id.piechart);
         initPieChart();

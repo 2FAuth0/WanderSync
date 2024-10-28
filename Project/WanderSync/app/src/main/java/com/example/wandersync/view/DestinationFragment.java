@@ -27,7 +27,6 @@ import java.util.Locale;
 import com.example.wandersync.R;
 import com.example.wandersync.model.TravelLog;
 import com.example.wandersync.viewmodel.DestinationViewModel;
-import com.example.wandersync.viewmodel.UserViewModel;
 
 public class DestinationFragment extends Fragment {
 
@@ -49,7 +48,6 @@ public class DestinationFragment extends Fragment {
     private EditText inputDuration;
     private RecyclerView recyclerTravelLogs;
     private DestinationViewModel destinationViewModel;
-    private UserViewModel userViewModel;
 
     public DestinationFragment() {
         // Required empty public constructor
@@ -72,7 +70,6 @@ public class DestinationFragment extends Fragment {
             String mParam2 = getArguments().getString("param2");
         }
         destinationViewModel = new ViewModelProvider(this).get(DestinationViewModel.class);
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
     }
 
     @Override
@@ -202,7 +199,7 @@ public class DestinationFragment extends Fragment {
             }
 
             if (!(durationStr.equals("") || startDate.equals("") || endDate.equals(""))) {
-                userViewModel.addVacationTime(startDate, endDate, duration);
+                destinationViewModel.addVacationTime(startDate, endDate, duration);
             }
         });
 
@@ -210,7 +207,7 @@ public class DestinationFragment extends Fragment {
     }
 
 
-    private boolean areDatesValid(String startDate, String endDate) {
+    public boolean areDatesValid(String startDate, String endDate) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         sdf.setLenient(false);
 
@@ -230,7 +227,7 @@ public class DestinationFragment extends Fragment {
         return false; // Dates are not valid
     }
 
-    private int calculateDuration(String startDateStr, String endDateStr) {
+    public int calculateDuration(String startDateStr, String endDateStr) {
         // Define the date format
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         int duration = 0;

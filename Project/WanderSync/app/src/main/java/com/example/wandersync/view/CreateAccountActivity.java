@@ -42,7 +42,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         .addOnCompleteListener(CreateAccountActivity.this, task -> {
                             if (task.isSuccessful()) {
                                 FirebaseUser user = mAuth.getCurrentUser();
-                                viewModel.addUser(user);
+                                viewModel.addUser(email, user);
                                 // Login success, go to HomeActivity
                                 Toast.makeText(CreateAccountActivity.this,
                                         "Welcome, " + email, Toast.LENGTH_SHORT).show();

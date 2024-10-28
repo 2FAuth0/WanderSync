@@ -7,7 +7,7 @@ public class VacationTime {
     private int duration;
 
     public VacationTime() {
-        // Default constructor required for calls to DataSnapshot.getValue(TravelLog.class)
+
     }
 
     public VacationTime(String id, String startDate, String endDate, int duration) {
@@ -20,6 +20,31 @@ public class VacationTime {
     public String getId() {
         return id;
     }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
 
     public void setId(String id) {
         this.id = id;
