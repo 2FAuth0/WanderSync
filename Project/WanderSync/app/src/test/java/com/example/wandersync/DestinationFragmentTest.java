@@ -28,6 +28,18 @@ public class DestinationFragmentTest {
     }
 
     @Test
+    public void testCalculateDuration() {
+        int result = fragment.calculateDuration("2020-10-10","2020-10-20");
+        assertEquals(10,result);
+    }
+
+    @Test
+    public void testCalculateDurationMonth() {
+        int result = fragment.calculateDuration("2020-10-10","2020-11-10");
+        assertEquals(31,result);
+    }
+
+    @Test
     public void testEndDateBeforeStartDate() {
         boolean result = fragment.areDatesValid("2024-10-31", "2024-10-01");
         assertFalse("Expected false when end date is before start date", result);
