@@ -37,41 +37,37 @@ public class DestinationDatabase {
 
     // Method to retrieve a travel log
     public MutableLiveData<List<TravelLog>> getTravelLogsLiveData() {
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        if (uid != null) {
-            DatabaseReference userTravelLogsRef = databaseReference.child("users").child(uid).child("travel_logs");
-            userTravelLogsRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    List<TravelLog> travelLogs = new ArrayList<>();
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        TravelLog travelLog = snapshot.getValue(TravelLog.class);
-                        travelLogs.add(travelLog);
-                    }
-                    travelLogsLiveData.setValue(travelLogs);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<TravelLog> travelLogs = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    TravelLog travelLog = snapshot.getValue(TravelLog.class);
+                    travelLogs.add(travelLog);
                 }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Log.e("DestinationDatabase", "Error reading data: " + databaseError.getMessage());
-                }
-            });
-        }
+                travelLogsLiveData.setValue(travelLogs);
+            }
+            
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("DestinationDatabase", "Error reading data: " + databaseError.getMessage());
+            }
+        });
         return travelLogsLiveData;
     }
 
     // Method to add a travel log
-    public void addTravelLog(TravelLog travelLog) {
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        if (uid != null) {
-            String id = databaseReference.child("users").child(uid).child("travel_logs").push().getKey();
-            travelLog.setId(id);
-            Log.d("DestinationDatabase", "addTravelLog:" + id);
-            assert id != null;
-            // Save the travel log under users/{UID}/travel_logs/{TravelLogID}
-            databaseReference.child("users").child(uid).child("travel_logs").child(id).setValue(travelLog);
-        }
+    public String addTravelLog(TravelLog travelLog) {
+        String id = databaseReference.child("travel_logs").push().getKey();
+        travelLog.setId(id);
+        Log.d("DestinationDatabase", "addTravelLog:" + id);
+        assert id != null;
+        databaseReference.child(id).setValue(travelLog);
+        return id;
     }
+
+
+
 
     // Add more methods as needed for retrieving and deleting travel logs
 }
