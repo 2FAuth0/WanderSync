@@ -31,6 +31,7 @@ import com.example.wandersync.viewmodel.DestinationViewModel;
 public class DestinationFragment extends Fragment {
 
     // UI Elements
+    // tagging
 
     private Button buttonOpenLogForm;
     private Button  buttonCancelDuration;
