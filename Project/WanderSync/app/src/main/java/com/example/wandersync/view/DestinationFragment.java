@@ -85,7 +85,8 @@ public class DestinationFragment extends Fragment {
         buttonSubmitLog = view.findViewById(R.id.button_submit_log);
         buttonCancelDuration = view.findViewById(R.id.button_cancel_duration_form);
         buttonCalculateDuration = view.findViewById(R.id.button_calculate_duration);
-        buttonOpenCalculateDurationForm = view.findViewById(R.id.button_open_calculate_duration_form);
+        buttonOpenCalculateDurationForm =
+                view.findViewById(R.id.button_open_calculate_duration_form);
 
 
         logForm = view.findViewById(R.id.log_form);
@@ -105,12 +106,13 @@ public class DestinationFragment extends Fragment {
         TravelLogAdapter adapter = new TravelLogAdapter(new ArrayList<>());
         recyclerTravelLogs.setAdapter(adapter);
 
-        destinationViewModel.getTravelLogs().observe(getViewLifecycleOwner(), new Observer<List<TravelLog>>() {
-            @Override
-            public void onChanged(List<TravelLog> travelLogs) {
-                adapter.setTravelLogs(travelLogs);
-            }
-        });
+        destinationViewModel.getTravelLogs().observe(getViewLifecycleOwner(),
+                new Observer<List<TravelLog>>() {
+                @Override
+                public void onChanged(List<TravelLog> travelLogs) {
+                    adapter.setTravelLogs(travelLogs);
+                }
+            });
 
 
         // Setup button click listeners
@@ -173,28 +175,33 @@ public class DestinationFragment extends Fragment {
             if (durationStr.equals("") && startDate.equals("")
                     || durationStr.equals("") && endDate.equals("")
                     || startDate.equals("") && endDate.equals("")) {
-                Toast.makeText(getContext(), "Populate at least 2 fields to calculate dates or duration.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),
+                        "Populate at least 2 fields to calculate dates or duration.",
+                        Toast.LENGTH_SHORT).show();
             } else if (durationStr.equals("")) {
                 duration = calculateDuration(startDate, endDate);
-                if (duration>0) {
+                if (duration > 0) {
                     inputDuration.setText(String.valueOf(duration));
                 }
             } else {
                 try {
                     duration = Integer.parseInt(durationStr);
                     if (duration <= 0) {
-                        Toast.makeText(getContext(), "Duration must be a positive whole number.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),
+                                "Duration must be a positive whole number.",
+                                Toast.LENGTH_SHORT).show();
                     } else {
                         if (startDate.equals("")) {
-                            startDate = calculateDate(endDate,-1*duration);
+                            startDate = calculateDate(endDate, -1 * duration);
                             inputVacationStart.setText(startDate);
-                        } else if(endDate.equals("")) {
-                            endDate = calculateDate(startDate,duration);
+                        } else if (endDate.equals("")) {
+                            endDate = calculateDate(startDate, duration);
                             inputVacationEnd.setText(endDate);
                         }
                     }
                 } catch (NumberFormatException e) {
-                    Toast.makeText(getContext(), "Duration must be a positive whole number.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),
+                            "Duration must be a positive whole number.", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -218,10 +225,12 @@ public class DestinationFragment extends Fragment {
             if (start != null && end != null && start.before(end)) {
                 return true; // Dates are valid
             } else {
-                Toast.makeText(getContext(), "End date must be after start date", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),
+                        "End date must be after start date", Toast.LENGTH_SHORT).show();
             }
         } catch (ParseException e) {
-            Toast.makeText(getContext(), "Invalid date format. Use YYYY-MM-DD", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),
+                    "Invalid date format. Use YYYY-MM-DD", Toast.LENGTH_SHORT).show();
         }
 
         return false; // Dates are not valid
@@ -240,15 +249,17 @@ public class DestinationFragment extends Fragment {
             if (startDate != null && endDate != null) {
                 // Calculate the difference in milliseconds
                 long differenceInMillis = endDate.getTime() - startDate.getTime();
-                if (differenceInMillis<0) {
-                    Toast.makeText(getContext(), "End date must be after start date", Toast.LENGTH_SHORT).show();
+                if (differenceInMillis < 0) {
+                    Toast.makeText(getContext(),
+                            "End date must be after start date", Toast.LENGTH_SHORT).show();
                 } else {
                     // Convert milliseconds to days
                     duration = (int) (differenceInMillis / (1000 * 60 * 60 * 24));
                 }
             }
         } catch (ParseException e) {
-            Toast.makeText(getContext(), "Invalid date format. Use YYYY-MM-DD", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),
+                    "Invalid date format. Use YYYY-MM-DD", Toast.LENGTH_SHORT).show();
         }
 
         return duration;
@@ -269,7 +280,8 @@ public class DestinationFragment extends Fragment {
                 return dateFormat.format(newDate);
             }
         } catch (ParseException e) {
-            Toast.makeText(getContext(), "Invalid date format. Use YYYY-MM-DD", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),
+                    "Invalid date format. Use YYYY-MM-DD", Toast.LENGTH_SHORT).show();
         }
 
 

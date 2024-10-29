@@ -1,7 +1,6 @@
 package com.example.wandersync.view;
 
 import android.os.Bundle;
-import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -10,13 +9,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.wandersync.R;
 import com.example.wandersync.databinding.ActivityMainBinding;
-import com.example.wandersync.databinding.BottomNavMenuBinding;
-import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
-    ActivityMainBinding binding;
-    //TODO: MVVM binding for future
+    private ActivityMainBinding binding;
     @Override
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
@@ -44,7 +40,7 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private void replaceFragment (Fragment fragment) {
+    private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
