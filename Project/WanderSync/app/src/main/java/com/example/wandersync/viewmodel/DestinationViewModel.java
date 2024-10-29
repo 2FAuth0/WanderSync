@@ -11,7 +11,6 @@ import com.example.wandersync.model.User;
 import com.example.wandersync.model.UserDatabase;
 import com.example.wandersync.model.VacationTime;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
@@ -28,7 +27,8 @@ public class DestinationViewModel extends ViewModel {
         destinationDatabase = DestinationDatabase.getInstance();
         userDatabase = UserDatabase.getInstance();
         travelLogsLiveData = destinationDatabase.getTravelLogsLiveData();
-        userLiveData = userDatabase.getUserData(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        userLiveData =
+                userDatabase.getUserData(FirebaseAuth.getInstance().getCurrentUser().getUid());
         allUserLiveData = userDatabase.getAllUserData();
 
         // Calculated allotted days whenever live data changes
@@ -44,7 +44,7 @@ public class DestinationViewModel extends ViewModel {
             return totalPlannedDays;
         });
 
-        allottedDays = Transformations.map(userLiveData, user ->{
+        allottedDays = Transformations.map(userLiveData, user -> {
             int days = 0;
             if (user.getAllottedVacation() != null) {
                 for (VacationTime v: user.getAllottedVacation()) {
@@ -79,7 +79,7 @@ public class DestinationViewModel extends ViewModel {
     public boolean addUserToTravelLog(String email) {
         User foundUser = null;
         for (User u:allUserLiveData.getValue()) {
-            if(u.getEmail()== email) {
+            if (u.getEmail() == email) {
                 foundUser = u;
                 break;
             }

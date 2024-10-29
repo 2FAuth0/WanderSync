@@ -1,16 +1,10 @@
 package com.example.wandersync.view;
 
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +13,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.example.wandersync.R;
-import com.example.wandersync.model.TravelLog;
 import com.example.wandersync.viewmodel.DestinationViewModel;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -27,12 +20,10 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,7 +36,6 @@ public class LogisticsFragment extends Fragment {
 
     private FirebaseUser user;
     private PieChart pieChart;
-//    private RecyclerView recyclerTravelLogs;
     private FloatingActionButton invite;
     private FloatingActionButton takeNotes;
     private EditText notesText;
@@ -68,7 +58,6 @@ public class LogisticsFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment LogisticsFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static LogisticsFragment newInstance(String param1, String param2) {
         LogisticsFragment fragment = new LogisticsFragment();
         Bundle args = new Bundle();
@@ -81,7 +70,6 @@ public class LogisticsFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    // TODO: update with contributors of a trip
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -100,7 +88,9 @@ public class LogisticsFragment extends Fragment {
         invite.setOnClickListener(v -> {
             if (inviteForm.getVisibility() == View.GONE) {
                 inviteForm.setVisibility(View.VISIBLE);
-            } else inviteForm.setVisibility(View.GONE);
+            } else {
+                inviteForm.setVisibility(View.GONE);
+            }
             if (notesForm.getVisibility() == View.VISIBLE) {
                 notesForm.setVisibility(View.GONE);
             }
@@ -114,8 +104,9 @@ public class LogisticsFragment extends Fragment {
         takeNotes.setOnClickListener(v -> {
             if (notesForm.getVisibility() == View.GONE) {
                 notesForm.setVisibility(View.VISIBLE);
+            } else {
+                notesForm.setVisibility(View.GONE);
             }
-            else notesForm.setVisibility(View.GONE);
             if (inviteForm.getVisibility() == View.VISIBLE) {
                 inviteForm.setVisibility(View.GONE);
             }
@@ -134,12 +125,14 @@ public class LogisticsFragment extends Fragment {
         });
         destinationViewModel = new ViewModelProvider(this).get(DestinationViewModel.class);
         destinationViewModel.getAllottedDays().observe(getViewLifecycleOwner(), allotted -> {
-            int planned = destinationViewModel.getPlannedDays().getValue() != null ? destinationViewModel.getPlannedDays().getValue() : 0;
+            int planned = destinationViewModel.getPlannedDays().getValue()
+                    != null ? destinationViewModel.getPlannedDays().getValue() : 0;
             updatePieChart(allotted, planned);
         });
 
         destinationViewModel.getPlannedDays().observe(getViewLifecycleOwner(), planned -> {
-            int allotted = destinationViewModel.getAllottedDays().getValue() != null ? destinationViewModel.getAllottedDays().getValue() : 100;
+            int allotted = destinationViewModel.getAllottedDays().getValue()
+                    != null ? destinationViewModel.getAllottedDays().getValue() : 100;
             updatePieChart(allotted, planned);
         });
 
@@ -147,7 +140,7 @@ public class LogisticsFragment extends Fragment {
     }
 
 
-    private void initPieChart(){
+    private void initPieChart() {
         //using percentage as values instead of amount
         pieChart.setUsePercentValues(true);
 
