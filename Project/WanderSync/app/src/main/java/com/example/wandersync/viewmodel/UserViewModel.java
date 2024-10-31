@@ -19,7 +19,7 @@ public class UserViewModel extends ViewModel {
     }
 
     public void addUser(String email, FirebaseUser firebaseUser) {
-        userDatabase.addUser(email,firebaseUser);
+        userDatabase.addUser(email, firebaseUser);
         userLiveData = userDatabase.getUserData(firebaseUser.getUid());
     }
 
