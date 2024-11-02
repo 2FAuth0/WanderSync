@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,38 +37,56 @@ public class DiningDatabase {
 
     // Method adding Dining Reservation
     public void addDiningReservation(DiningReservation reservation) {
-        String id = databaseReference.push().getKey(); // Generate a unique key
-        reservation.setId(id);
-        assert id != null;
-        databaseReference.child(id).setValue(reservation);
-        Log.d("DiningDatabase", "addDiningReservation: " + id);
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if (uid != null) {
+            // Generate a unique key for each dining reservation
+            String id = databaseReference.child(uid).child("dining_reservations").push().getKey();
+            reservation.setId(id);
+            Log.d("DiningDatabase", "addDiningReservation: " + id);
+            assert id != null;
+
+            // Save the dining reservation under users/{UID}/dining_reservations/{ReservationID}
+            databaseReference.child(uid).child("dining_reservations").child(id).setValue(reservation);
+        }
     }
 
-    // Method to retrieve all dining reservations
+    // Method to retrieve all dining reservations (returns MutableLiveData)
     public MutableLiveData<List<DiningReservation>> getDiningReservationsLiveData() {
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                List<DiningReservation> reservations = new ArrayList<>();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    DiningReservation reservation = snapshot.getValue(DiningReservation.class);
-                    reservations.add(reservation);
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if (uid != null) {
+            DatabaseReference userDiningReservationsRef = databaseReference.child(uid).child("dining_reservations");
+            userDiningReservationsRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    List<DiningReservation> diningReservations = new ArrayList<>();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        DiningReservation reservation = snapshot.getValue(DiningReservation.class);
+                        diningReservations.add(reservation);
+                    }
+                    diningReservationsLiveData.setValue(diningReservations);
                 }
-                diningReservationsLiveData.setValue(reservations);
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e("DiningDatabase", "Error reading data: " + databaseError.getMessage());
-            }
-        });
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.e("DiningDatabase", "Error reading data: " + databaseError.getMessage());
+                }
+            });
+        }
         return diningReservationsLiveData;
     }
 
+
     // Method to update an existing dining reservation
-    public void updateDiningReservation(String id, DiningReservation updatedReservation) {
-        databaseReference.child(id).setValue(updatedReservation)
-                .addOnSuccessListener(aVoid -> Log.d("DiningDatabase", "Reservation updated"))
-                .addOnFailureListener(e -> Log.e("DiningDatabase", "Failed to update reservation", e));
+        public void updateDiningReservation (String reservationId, DiningReservation
+        updatedReservation){
+            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            if (uid != null && reservationId != null) {
+                DatabaseReference reservationRef = databaseReference.child(uid)
+                        .child("dining_reservations").child(reservationId);
+
+                reservationRef.setValue(updatedReservation)
+                        .addOnSuccessListener(aVoid -> Log.d("DiningDatabase", "Dining reservation updated successfully"))
+                        .addOnFailureListener(e -> Log.e("DiningDatabase", "Failed to update dining reservation: " + e.getMessage()));
+            }
         }
 }
