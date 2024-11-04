@@ -118,7 +118,7 @@ public class Order {
 
    public void addItemsFromAnotherOrder(Order otherOrder) {
         for (Item item : otherOrder.getItems()) {
-            items.add(item);
+            addItem(item);
         }
    }
 
