@@ -2,4 +2,23 @@
     <string name="app_name">WanderSync</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Room Numbers -->
+    <string-array name="room_numbers">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <!-- Add more if needed -->
+    </string-array>
+
+    <!-- Room Types -->
+    <string-array name="room_types">
+        <item>King Suite</item>
+        <item>Queen</item>
+        <item>Single</item>
+        <item>Double</item>
+        <item>Deluxe</item>
+        <!-- Add more if needed -->
+    </string-array>
 </resources>
