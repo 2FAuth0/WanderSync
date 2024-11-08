@@ -91,8 +91,11 @@ public class AccomodationFragment extends Fragment {
         spinnerRoomType = view.findViewById(R.id.spinner_room_type);
 
         buttonOpenAccomodationForm.setOnClickListener(v -> {
-            // Code to open the form for adding new accommodation
-            accommodationForm.setVisibility(View.VISIBLE);
+            if (accommodationForm.getVisibility() == View.GONE) {
+                accommodationForm.setVisibility(View.VISIBLE);
+            } else {
+                accommodationForm.setVisibility(View.GONE);
+            }
         });
         buttonAddAccommodation.setOnClickListener(v -> {
             String startDate = inputCheckIn.getText().toString();
