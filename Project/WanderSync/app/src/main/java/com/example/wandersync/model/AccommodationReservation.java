@@ -4,14 +4,14 @@ public class AccommodationReservation {
     private String id;
     private String check_in;
     private String check_out;
-    private int num_Rooms;
+    private String num_Rooms;
     private String room_Type;
 
     public AccommodationReservation(
             String id,
             String check_in,
             String check_out,
-            int num_Rooms,
+            String num_Rooms,
             String room_Type
     ) {
         this.id = id;
@@ -30,7 +30,7 @@ public class AccommodationReservation {
     public String getCheck_out() {
         return check_out;
     }
-    public int getNum_Rooms() {
+    public String getNum_Rooms() {
         return num_Rooms;
     }
     public String getRoom_Type() {
@@ -46,7 +46,7 @@ public class AccommodationReservation {
     public void setCheck_out(String check_out) {
         this.check_out = check_out;
     }
-    public void setNum_Rooms(int num_Rooms) {
+    public void setNum_Rooms(String num_Rooms) {
         this.num_Rooms = num_Rooms;
     }
     public void setRoom_Type(String room_Type) {

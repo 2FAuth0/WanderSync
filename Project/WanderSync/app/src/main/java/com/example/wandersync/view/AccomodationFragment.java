@@ -3,6 +3,9 @@ package com.example.wandersync.view;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,12 +20,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wandersync.R;
+import com.example.wandersync.viewmodel.AccommodationViewModel;
+
+import com.example.wandersync.viewmodel.DestinationViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,6 +51,8 @@ public class AccomodationFragment extends Fragment {
     private EditText inputLocation;
     private EditText inputCheckIn;
     private EditText inputCheckOut;
+    private AccommodationViewModel accommodationViewModel;
+    private RecyclerView recyclerAccommodations;
 
 
     public AccomodationFragment() {
@@ -73,6 +83,8 @@ public class AccomodationFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        accommodationViewModel = new ViewModelProvider(this).get(AccommodationViewModel.class);
+
     }
 
     @Override
@@ -80,6 +92,12 @@ public class AccomodationFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_accomodation, container, false);
+
+        recyclerAccommodations = view.findViewById(R.id.recycler_accommodations);
+        recyclerAccommodations.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        AccommodationReservationAdapter adapter = new AccommodationReservationAdapter(new ArrayList<>());
+        recyclerAccommodations.setAdapter(adapter);
 
         FloatingActionButton buttonOpenAccomodationForm = view.findViewById(R.id.button_open_accomodation_form);
         LinearLayout accommodationForm = view.findViewById(R.id.accommodation_form);
@@ -104,10 +122,10 @@ public class AccomodationFragment extends Fragment {
             String numOfRooms = spinnerRooms.getSelectedItem().toString();
             String roomType = spinnerRoomType.getSelectedItem().toString();
 
-            // TODO Justin: upload these variables to the accomodation database (which is connected to the user)
             if (TextUtils.isEmpty(location)) {
                 Toast.makeText(getContext(), "Location cannot be empty", Toast.LENGTH_SHORT).show();
             } else if (areDatesValid(startDate, endDate)) {
+                accommodationViewModel.addAccommodationReservation(startDate, endDate, numOfRooms, roomType);
                 accommodationForm.setVisibility(View.GONE);
                 inputLocation.setText("");
                 inputCheckIn.setText("");

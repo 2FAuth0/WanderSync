@@ -34,6 +34,7 @@ public class AccommodationDatabase {
 
     // Method to add an accommodation reservation
     public void addAccommodationReservation(AccommodationReservation reservation) {
+        Log.d("AccommodationDatabase", "addAccommodationReservation: " + reservation.getCheck_in() + " " + reservation.getCheck_out() + " " + reservation.getNum_Rooms() + " " + reservation.getRoom_Type());
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         if (uid != null) {
             // Generate a unique key for each accommodation reservation
