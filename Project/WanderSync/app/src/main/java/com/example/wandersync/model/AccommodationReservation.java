@@ -7,6 +7,9 @@ public class AccommodationReservation {
     private String num_Rooms;
     private String room_Type;
 
+    public AccommodationReservation() {
+        // Default constructor required for calls to DataSnapshot.getValue(User.class)
+    }
     public AccommodationReservation(
             String id,
             String check_in,
