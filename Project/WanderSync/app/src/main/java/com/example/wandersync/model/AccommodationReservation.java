@@ -2,6 +2,7 @@ package com.example.wandersync.model;
 
 public class AccommodationReservation {
     private String id;
+    private String location;
     private String check_in;
     private String check_out;
     private String num_Rooms;
@@ -12,12 +13,14 @@ public class AccommodationReservation {
     }
     public AccommodationReservation(
             String id,
+            String location,
             String check_in,
             String check_out,
             String num_Rooms,
             String room_Type
     ) {
         this.id = id;
+        this.location = location;
         this.check_in = check_in;
         this.check_out = check_out;
         this.num_Rooms = num_Rooms;
@@ -26,6 +29,9 @@ public class AccommodationReservation {
 
     public String getId() {
         return id;
+    }
+    public String getLocation() {
+        return location;
     }
     public String getCheck_in() {
         return check_in;
@@ -39,7 +45,9 @@ public class AccommodationReservation {
     public String getRoom_Type() {
         return room_Type;
     }
-
+    public void setLocation(String location) {
+        this.location = location;
+    }
     public void setId(String id) {
         this.id = id;
     }

@@ -3,6 +3,7 @@ package com.example.wandersync.view;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wandersync.R;
+import com.example.wandersync.model.AccommodationReservation;
+import com.example.wandersync.model.TravelLog;
 import com.example.wandersync.viewmodel.AccommodationViewModel;
 
 import com.example.wandersync.viewmodel.DestinationViewModel;
@@ -29,6 +32,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -99,6 +103,14 @@ public class AccomodationFragment extends Fragment {
         AccommodationReservationAdapter adapter = new AccommodationReservationAdapter(new ArrayList<>());
         recyclerAccommodations.setAdapter(adapter);
 
+        accommodationViewModel.getAccommodationReservations().observe(getViewLifecycleOwner(),
+                new Observer<List<AccommodationReservation>>() {
+                    @Override
+                    public void onChanged(List<AccommodationReservation> accommodationReservations) {
+                        adapter.setAccommodationList(accommodationReservations);
+                    }
+                });
+
         FloatingActionButton buttonOpenAccomodationForm = view.findViewById(R.id.button_open_accomodation_form);
         LinearLayout accommodationForm = view.findViewById(R.id.accommodation_form);
         Button buttonAddAccommodation = view.findViewById(R.id.button_add_accommodation);
@@ -125,7 +137,7 @@ public class AccomodationFragment extends Fragment {
             if (TextUtils.isEmpty(location)) {
                 Toast.makeText(getContext(), "Location cannot be empty", Toast.LENGTH_SHORT).show();
             } else if (areDatesValid(startDate, endDate)) {
-                accommodationViewModel.addAccommodationReservation(startDate, endDate, numOfRooms, roomType);
+                accommodationViewModel.addAccommodationReservation(location, startDate, endDate, numOfRooms, roomType);
                 accommodationForm.setVisibility(View.GONE);
                 inputLocation.setText("");
                 inputCheckIn.setText("");

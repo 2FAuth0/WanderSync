@@ -8,6 +8,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.wandersync.R;
 import com.example.wandersync.model.AccommodationReservation;
+
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class AccommodationReservationAdapter extends RecyclerView.Adapter<AccommodationReservationAdapter.AccommodationViewHolder> {
@@ -28,6 +31,7 @@ public class AccommodationReservationAdapter extends RecyclerView.Adapter<Accomm
     @Override
     public void onBindViewHolder(@NonNull AccommodationViewHolder holder, int position) {
         AccommodationReservation reservation = accommodationList.get(position);
+        holder.locationView.setText("Location: " + reservation.getLocation());
         holder.checkInTextView.setText("Check-in: " + reservation.getCheck_in());
         holder.checkOutTextView.setText("Check-out: " + reservation.getCheck_out());
         holder.numRoomsTextView.setText("Rooms: " + reservation.getNum_Rooms());
@@ -45,6 +49,7 @@ public class AccommodationReservationAdapter extends RecyclerView.Adapter<Accomm
     }
 
     static class AccommodationViewHolder extends RecyclerView.ViewHolder {
+        TextView locationView;
         TextView checkInTextView;
         TextView checkOutTextView;
         TextView numRoomsTextView;
@@ -52,6 +57,7 @@ public class AccommodationReservationAdapter extends RecyclerView.Adapter<Accomm
 
         public AccommodationViewHolder(@NonNull View itemView) {
             super(itemView);
+            locationView = itemView.findViewById(R.id.text_location);
             checkInTextView = itemView.findViewById(R.id.text_check_in);
             checkOutTextView = itemView.findViewById(R.id.text_check_out);
             numRoomsTextView = itemView.findViewById(R.id.text_num_rooms);
