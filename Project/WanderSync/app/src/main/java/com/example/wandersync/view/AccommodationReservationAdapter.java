@@ -36,6 +36,12 @@ public class AccommodationReservationAdapter
         holder.checkOutTextView.setText("Check-out: " + reservation.getCheckOut());
         holder.numRoomsTextView.setText("Rooms: " + reservation.getNumRooms());
         holder.roomTypeTextView.setText("Room Type: " + reservation.getRoomType());
+        // Set visibility of past indicator
+        if (reservation.isPast()) {
+            holder.textPastIndicator.setVisibility(View.VISIBLE);
+        } else {
+            holder.textPastIndicator.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -54,6 +60,7 @@ public class AccommodationReservationAdapter
         private TextView checkOutTextView;
         private TextView numRoomsTextView;
         private TextView roomTypeTextView;
+        private TextView textPastIndicator;
 
         public AccommodationViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -62,6 +69,7 @@ public class AccommodationReservationAdapter
             checkOutTextView = itemView.findViewById(R.id.text_check_out);
             numRoomsTextView = itemView.findViewById(R.id.text_num_rooms);
             roomTypeTextView = itemView.findViewById(R.id.text_room_type);
+            textPastIndicator = itemView.findViewById(R.id.text_past_indicator);
         }
     }
 }
