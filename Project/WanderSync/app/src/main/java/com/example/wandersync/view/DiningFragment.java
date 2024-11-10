@@ -79,7 +79,8 @@ public class DiningFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dining, container, false);
 
-        FloatingActionButton buttonOpenReservationForm = view.findViewById(R.id.button_add_reservation);
+        FloatingActionButton buttonOpenReservationForm =
+                view.findViewById(R.id.button_add_reservation);
         LinearLayout reservationForm = view.findViewById(R.id.reservation_form);
         Button buttonAddReservation = view.findViewById(R.id.button_submit_reservation);
         ImageButton buttonSortUpcoming = view.findViewById(R.id.button_sort_upcoming);
@@ -138,12 +139,14 @@ public class DiningFragment extends Fragment {
         buttonSortUpcoming.setOnClickListener(v -> {
             // might implement this elsewhere and then return the sorted list
             Collections.reverse(upcoming);
-            Toast.makeText(getContext(), "Upcoming reservations sorted.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Upcoming reservations sorted.",
+                    Toast.LENGTH_SHORT).show();
         });
         buttonSortPast.setOnClickListener(v -> {
             // might implement this elsewhere and then return the sorted list
             Collections.reverse(past);
-            Toast.makeText(getContext(), "Past reservations sorted.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Past reservations sorted.",
+                    Toast.LENGTH_SHORT).show();
         });
 
         /*End recycler logic*/
@@ -165,18 +168,20 @@ public class DiningFragment extends Fragment {
             String location = inputLocation.getText().toString();
             String website = inputWebsite.getText().toString();
 
-            // TODO Justin: upload these variables to the dining database (which is connected to the user)
+            // TODO Justin: upload these variables to the dining database
             if (TextUtils.isEmpty(location)) {
                 Toast.makeText(getContext(), "Location cannot be empty", Toast.LENGTH_SHORT).show();
             } else if (TextUtils.isEmpty(website)) {
-                Toast.makeText(getContext(), "Website cannot be empty", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Website cannot be empty",
+                        Toast.LENGTH_SHORT).show();
             } else {
                 reservationForm.setVisibility(View.GONE);
                 Date reset = new Date();
                 inputTime.setDefaultDate(reset);
                 inputLocation.setText("");
                 inputWebsite.setText("");
-                Toast.makeText(getContext(), "Reservation successfully added", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Reservation successfully added",
+                        Toast.LENGTH_SHORT).show();
             }
         });
 

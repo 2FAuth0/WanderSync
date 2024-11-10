@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +16,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wandersync.R;
 import com.example.wandersync.model.AccommodationReservation;
-import com.example.wandersync.model.TravelLog;
 import com.example.wandersync.viewmodel.AccommodationViewModel;
 
-import com.example.wandersync.viewmodel.DestinationViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.ParseException;
@@ -100,18 +96,21 @@ public class AccomodationFragment extends Fragment {
         recyclerAccommodations = view.findViewById(R.id.recycler_accommodations);
         recyclerAccommodations.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        AccommodationReservationAdapter adapter = new AccommodationReservationAdapter(new ArrayList<>());
+        AccommodationReservationAdapter adapter =
+                new AccommodationReservationAdapter(new ArrayList<>());
         recyclerAccommodations.setAdapter(adapter);
 
         accommodationViewModel.getAccommodationReservations().observe(getViewLifecycleOwner(),
                 new Observer<List<AccommodationReservation>>() {
                     @Override
-                    public void onChanged(List<AccommodationReservation> accommodationReservations) {
+                    public void onChanged(List<AccommodationReservation>
+                                                  accommodationReservations) {
                         adapter.setAccommodationList(accommodationReservations);
                     }
                 });
 
-        FloatingActionButton buttonOpenAccomodationForm = view.findViewById(R.id.button_open_accomodation_form);
+        FloatingActionButton buttonOpenAccomodationForm =
+                view.findViewById(R.id.button_open_accomodation_form);
         LinearLayout accommodationForm = view.findViewById(R.id.accommodation_form);
         Button buttonAddAccommodation = view.findViewById(R.id.button_add_accommodation);
         inputLocation = view.findViewById(R.id.input_location);
@@ -135,16 +134,19 @@ public class AccomodationFragment extends Fragment {
             String roomType = spinnerRoomType.getSelectedItem().toString();
 
             if (TextUtils.isEmpty(location)) {
-                Toast.makeText(getContext(), "Location cannot be empty", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Location cannot be empty",
+                        Toast.LENGTH_SHORT).show();
             } else if (areDatesValid(startDate, endDate)) {
-                accommodationViewModel.addAccommodationReservation(location, startDate, endDate, numOfRooms, roomType);
+                accommodationViewModel.addAccommodationReservation(location, startDate,
+                        endDate, numOfRooms, roomType);
                 accommodationForm.setVisibility(View.GONE);
                 inputLocation.setText("");
                 inputCheckIn.setText("");
                 inputCheckOut.setText("");
                 spinnerRooms.setSelection(0);
                 spinnerRoomType.setSelection(0);
-                Toast.makeText(getContext(), "Accommodation successfully booked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Accommodation successfully booked",
+                        Toast.LENGTH_SHORT).show();
             }
         });
 

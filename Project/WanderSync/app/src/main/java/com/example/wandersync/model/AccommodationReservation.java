@@ -3,10 +3,10 @@ package com.example.wandersync.model;
 public class AccommodationReservation {
     private String id;
     private String location;
-    private String check_in;
-    private String check_out;
-    private String num_Rooms;
-    private String room_Type;
+    private String checkIn;
+    private String checkOut;
+    private String numRooms;
+    private String roomType;
 
     public AccommodationReservation() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
@@ -14,17 +14,17 @@ public class AccommodationReservation {
     public AccommodationReservation(
             String id,
             String location,
-            String check_in,
-            String check_out,
-            String num_Rooms,
-            String room_Type
+            String checkIn,
+            String checkOut,
+            String numRooms,
+            String roomType
     ) {
         this.id = id;
         this.location = location;
-        this.check_in = check_in;
-        this.check_out = check_out;
-        this.num_Rooms = num_Rooms;
-        this.room_Type = room_Type;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+        this.numRooms = numRooms;
+        this.roomType = roomType;
     }
 
     public String getId() {
@@ -33,17 +33,17 @@ public class AccommodationReservation {
     public String getLocation() {
         return location;
     }
-    public String getCheck_in() {
-        return check_in;
+    public String getCheckIn() {
+        return checkIn;
     }
-    public String getCheck_out() {
-        return check_out;
+    public String getCheckOut() {
+        return checkOut;
     }
-    public String getNum_Rooms() {
-        return num_Rooms;
+    public String getNumRooms() {
+        return numRooms;
     }
-    public String getRoom_Type() {
-        return room_Type;
+    public String getRoomType() {
+        return roomType;
     }
     public void setLocation(String location) {
         this.location = location;
@@ -51,16 +51,16 @@ public class AccommodationReservation {
     public void setId(String id) {
         this.id = id;
     }
-    public void setCheck_in(String check_in) {
-        this.check_in = check_in;
+    public void setCheckIn(String checkIn) {
+        this.checkIn = checkIn;
     }
-    public void setCheck_out(String check_out) {
-        this.check_out = check_out;
+    public void setCheckOut(String checkOut) {
+        this.checkOut = checkOut;
     }
-    public void setNum_Rooms(String num_Rooms) {
-        this.num_Rooms = num_Rooms;
+    public void setNumRooms(String numRooms) {
+        this.numRooms = numRooms;
     }
-    public void setRoom_Type(String room_Type) {
-        this.room_Type = room_Type;
+    public void setRoomType(String roomType) {
+        this.roomType = roomType;
     }
 }

@@ -25,8 +25,7 @@ public class DiningReservation {
         return id;
     }
 
-    public void setId(String id)
-    {
+    public void setId(String id) {
         this.id = id;
     }
     public String getLocation() {
