@@ -26,6 +26,7 @@ public class TestFragment extends Fragment {
     private int pieChartVisibility = View.GONE;
     private int form1Visibility = View.GONE;
     private int form2Visibility = View.GONE;
+    private int reservationFormVis = View.GONE;
 
     public TestFragment() {
         // Required empty public constructor
@@ -95,5 +96,13 @@ public class TestFragment extends Fragment {
 
     public int getForm2Visibility() {
         return form2Visibility;
+    }
+
+    public void toggleReservationFormVisibility() {
+        reservationFormVis = (reservationFormVis == View.VISIBLE) ? View.GONE : View.VISIBLE;
+    }
+
+    public int getReservationVisibility() {
+        return reservationFormVis;
     }
 }

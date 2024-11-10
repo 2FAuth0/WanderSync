@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.firebase.common)
     implementation(libs.fragment.testing)
     testImplementation(libs.junit)
+    testImplementation(libs.junit.jupiter)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     testImplementation("org.robolectric:robolectric:4.9")
