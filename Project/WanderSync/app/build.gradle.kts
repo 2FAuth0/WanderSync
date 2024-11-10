@@ -63,5 +63,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation("com.google.android.material:material:1.3.0-alpha02")
+    implementation("com.github.florent37:singledateandtimepicker:2.2.7")
+//compatible with androidX
 
 }

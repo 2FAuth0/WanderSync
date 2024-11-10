@@ -144,6 +144,7 @@ public class AccomodationFragment extends Fragment {
                 inputCheckOut.setText("");
                 spinnerRooms.setSelection(0);
                 spinnerRoomType.setSelection(0);
+                Toast.makeText(getContext(), "Accommodation successfully booked", Toast.LENGTH_SHORT).show();
             }
         });
 
