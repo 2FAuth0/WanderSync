@@ -7,6 +7,7 @@ public class AccommodationReservation {
     private String checkOut;
     private String numRooms;
     private String roomType;
+    private boolean isPast;
 
     public AccommodationReservation() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
@@ -59,6 +60,12 @@ public class AccommodationReservation {
     }
     public void setNumRooms(String numRooms) {
         this.numRooms = numRooms;
+    }
+    public boolean isPast() {
+        return isPast;
+    }
+    public void setPast(boolean past) {
+        isPast = past;
     }
     public void setRoomType(String roomType) {
         this.roomType = roomType;

@@ -31,8 +31,7 @@ public class AccommodationViewModel extends ViewModel {
                 checkIn,
                 checkOut,
                 numRooms,
-                roomType
-        );
+                roomType);
         Log.d("AccommodationViewModel", "addAccommodationReservation: got here");
 
         accommodationDatabase.addAccommodationReservation(reservation);
