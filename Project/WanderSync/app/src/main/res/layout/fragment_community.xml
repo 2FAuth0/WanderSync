@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".view.CommunityFragment">
-    <!--TODO: Abhi - Add nav bar to each page -->
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
