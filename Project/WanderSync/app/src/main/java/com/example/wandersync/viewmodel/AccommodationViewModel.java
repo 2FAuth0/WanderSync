@@ -3,21 +3,63 @@ package com.example.wandersync.viewmodel;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 import com.example.wandersync.model.AccommodationDatabase;
 import com.example.wandersync.model.AccommodationReservation;
+import com.example.wandersync.model.TravelLog;
+import com.example.wandersync.model.Trip;
+import com.example.wandersync.model.TripDatabase;
+import com.example.wandersync.model.User;
+import com.example.wandersync.model.UserDatabase;
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class AccommodationViewModel extends ViewModel {
     private AccommodationDatabase accommodationDatabase;
+    private UserDatabase userDatabase;
+    private TripDatabase tripDatabase;
+    private MutableLiveData<User> userLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<Trip>> allTripLiveData = new MutableLiveData<>();
+    private LiveData<Trip> tripLiveData = new MutableLiveData<>();
+    private LiveData<List<AccommodationReservation>> tripAccomodationsLiveData = new MutableLiveData<>();
+
     private LiveData<List<AccommodationReservation>> accommodationReservationsLiveData;
 
     public AccommodationViewModel() {
         accommodationDatabase = AccommodationDatabase.getInstance();
-        accommodationReservationsLiveData =
-                accommodationDatabase.getAccommodationReservationsLiveData();
+        userDatabase = UserDatabase.getInstance();
+        tripDatabase = TripDatabase.getInstance();
+
+        accommodationReservationsLiveData = accommodationDatabase.getAccommodationReservationsLiveData();
+        userLiveData =
+                userDatabase.getUserData(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        allTripLiveData = tripDatabase.getTripData();
+
+
+        tripLiveData = Transformations.switchMap(userLiveData, user -> {
+            if (user != null && user.getTripID() != null) {
+                return tripDatabase.getTripDataByID(user.getTripID());
+            }
+            return new MutableLiveData<>(null);
+        });
+
+        tripAccomodationsLiveData = Transformations.switchMap(tripLiveData, trip ->
+            Transformations.map(accommodationReservationsLiveData, accommodationReservations -> {
+                List<AccommodationReservation> filteredReservations = new ArrayList<>();
+                if (trip != null && trip.getAccommodationReservations() != null) {
+                    for (AccommodationReservation reservation : accommodationReservations) {
+                        if (trip.getAccommodationReservations().contains(reservation.getId())) {
+                            filteredReservations.add(reservation);
+                        }
+                    }
+                }
+                return filteredReservations;
+            }));
     }
 
     // Method to add a new accommodation reservation
@@ -35,23 +77,40 @@ public class AccommodationViewModel extends ViewModel {
         );
         Log.d("AccommodationViewModel", "addAccommodationReservation: got here");
 
-        accommodationDatabase.addAccommodationReservation(reservation);
+
+        String reservationId = accommodationDatabase.addAccommodationReservation(reservation);
+        if (userLiveData.getValue() != null && userLiveData.getValue().getTripID() != null) {
+            String tripId = userLiveData.getValue().getTripID();
+            Observer<Trip> oneTimeObserver = new Observer<Trip>() {
+                @Override
+                public void onChanged(Trip trip) {
+                    if (trip != null) {
+                        trip.addReservation(reservationId);
+                        tripDatabase.updateTrip(trip);
+                    }
+                    // Remove itself after the first observation
+                    tripDatabase.getTripDataByID(tripId).removeObserver(this);
+                }
+            };
+            tripDatabase.getTripDataByID(tripId).observeForever(oneTimeObserver);
+        }
+
     }
 
     // Method to retrieve all accommodation reservations as LiveData
     public LiveData<List<AccommodationReservation>> getAccommodationReservations() {
-        return accommodationReservationsLiveData;
+        return tripAccomodationsLiveData;
     }
 
     // Method to update an existing accommodation reservation
     public void updateAccommodationReservation(String reservationId,
                                                AccommodationReservation updatedReservation) {
-        accommodationDatabase.updateAccommodationReservation(reservationId, updatedReservation);
+        accommodationDatabase.updateAccommodationReservation(updatedReservation);
     }
 
     // Optional method to filter reservations based on room type
     public LiveData<List<AccommodationReservation>> getFilteredReservations(String roomTypeFilter) {
-        return Transformations.map(accommodationReservationsLiveData, reservations -> {
+        return Transformations.map(tripAccomodationsLiveData, reservations -> {
             List<AccommodationReservation> filteredList = new ArrayList<>();
             for (AccommodationReservation reservation : reservations) {
                 if (reservation.getRoomType().equals(roomTypeFilter)) {

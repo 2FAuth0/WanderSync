@@ -14,12 +14,13 @@ import java.util.List;
 public class AccommodationDatabase {
     private static AccommodationDatabase instance;
     private DatabaseReference databaseReference;
-    private MutableLiveData<List<AccommodationReservation>> accommodationReservationsLiveData =
-            new MutableLiveData<>();
+    private MutableLiveData<List<AccommodationReservation>> accommodationReservationsLiveData
+            = new MutableLiveData<>();
 
     private AccommodationDatabase() {
         // Initialize Firebase Database reference
-        databaseReference = FirebaseDatabase.getInstance().getReference("users");
+        databaseReference = FirebaseDatabase.getInstance().
+                getReference("accommodation_reservations");
     }
 
     public static synchronized AccommodationDatabase getInstance() {
@@ -34,66 +35,47 @@ public class AccommodationDatabase {
     }
 
     // Method to add an accommodation reservation
-    public void addAccommodationReservation(AccommodationReservation reservation) {
-        Log.d("AccommodationDatabase", "addAccommodationReservation: "
-                + reservation.getCheckIn() + " " + reservation.getCheckOut() + " "
-                + reservation.getNumRooms() + " " + reservation.getRoomType());
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        if (uid != null) {
-            // Generate a unique key for each accommodation reservation
-            String id = databaseReference.child(uid).child("accommodation_reservations")
-                    .push().getKey();
-            reservation.setId(id);
-            Log.d("AccommodationDatabase", "addAccommodationReservation: " + id);
-            assert id != null;
+    public String addAccommodationReservation(AccommodationReservation reservation) {
+        Log.d("AccommodationDatabase", "addAccommodationReservation: " + reservation.getCheckIn() + " " + reservation.getCheckOut() + " " + reservation.getNumRooms() + " " + reservation.getRoomType());
+        String id = databaseReference.push().getKey();
+        reservation.setId(id);
+        Log.d("AccommodationDatabase", "addAccommodationReservation: " + id);
+        assert id != null;
+        databaseReference.child(id).setValue(reservation);
+        return id;
 
-            // Save the accommodation under users/{UID}/accommodation_reservations/{ReservationID}
-            databaseReference.child(uid).child("accommodation_reservations")
-                    .child(id).setValue(reservation);
-        }
     }
 
     // Method to retrieve all accommodation reservations
     public MutableLiveData<List<AccommodationReservation>> getAccommodationReservationsLiveData() {
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        if (uid != null) {
-            DatabaseReference userAccommodationReservationsRef =
-                    databaseReference.child(uid).child("accommodation_reservations");
-            userAccommodationReservationsRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    List<AccommodationReservation> reservations = new ArrayList<>();
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        AccommodationReservation reservation =
-                                snapshot.getValue(AccommodationReservation.class);
-                        reservations.add(reservation);
-                    }
-                    accommodationReservationsLiveData.setValue(reservations);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<AccommodationReservation> reservations = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    AccommodationReservation reservation =
+                            snapshot.getValue(AccommodationReservation.class);
+                    reservations.add(reservation);
                 }
+                accommodationReservationsLiveData.setValue(reservations);
+            }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Log.e("AccommodationDatabase", "Error reading data: "
-                            + databaseError.getMessage());
-                }
-            });
-        }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("AccommodationDatabase", "Error reading data: "
+                        + databaseError.getMessage());
+            }
+        });
+
         return accommodationReservationsLiveData;
     }
 
     // Method to update an existing accommodation reservation
-    public void updateAccommodationReservation(String reservationId,
-                                               AccommodationReservation updatedReservation) {
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        if (uid != null && reservationId != null) {
-            DatabaseReference reservationRef = databaseReference.child(uid)
-                    .child("accommodation_reservations").child(reservationId);
-
-            reservationRef.setValue(updatedReservation)
-                    .addOnSuccessListener(aVoid -> Log.d("AccommodationDatabase",
-                            "Reservation updated"))
-                    .addOnFailureListener(e -> Log.e("AccommodationDatabase",
-                            "Failed to update reservation", e));
-        }
+    public void updateAccommodationReservation(AccommodationReservation updatedReservation) {
+        databaseReference.child(updatedReservation.getId()).setValue(updatedReservation)
+                .addOnSuccessListener(aVoid -> Log.d("AccommodationDatabase",
+                        "Reservation updated"))
+                .addOnFailureListener(e -> Log.e("AccommodationDatabase",
+                        "Failed to update reservation", e));
     }
 }

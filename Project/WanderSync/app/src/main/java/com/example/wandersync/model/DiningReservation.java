@@ -3,8 +3,8 @@ package com.example.wandersync.model;
 public class DiningReservation {
     private String id; // Unique identifier
     private String location;
+    private String timing;
     private String website;
-    private Double reviews;
 
     public DiningReservation() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
@@ -13,12 +13,12 @@ public class DiningReservation {
     public DiningReservation(
             String id, // Unique identifier
             String location,
-            String website,
-            Double reviews) {
+            String timing,
+            String website) {
         this.id = id;
+        this.timing = timing;
         this.location = location;
         this.website = website;
-        this.reviews = reviews;
     }
 
     public String getId() {
@@ -36,19 +36,19 @@ public class DiningReservation {
         this.location = location;
     }
 
-    public void setReviews(Double reviews) {
-        this.reviews = reviews;
-    }
-
-    public Double getReviews() {
-        return reviews;
-    }
-
     public String getWebsite() {
         return website;
     }
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    public String getTiming() {
+        return timing;
+    }
+
+    public void setTiming(String timing) {
+        this.timing = timing;
     }
 }

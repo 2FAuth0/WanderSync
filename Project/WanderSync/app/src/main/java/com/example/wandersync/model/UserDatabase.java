@@ -31,18 +31,16 @@ public class UserDatabase {
         return instance;
     }
 
-    public void addUser(String email, FirebaseUser newUser) {
-        String userID = newUser.getUid();
+    public void addUser(String email, String userID, String tripID) {
 
         assert userID != null;
-        User user = new User(email, userID);
+        User user = new User(email, userID, tripID);
         databaseReference.child(userID).setValue(user);
     }
 
     public void updateUser(User user) {
         String userID = user.getId();
-        Log.d("UserDatabase", "updateUser:" + userID
-                + ";vacaions" + user.getAllottedVacation().get(0).getEndDate());
+        Log.d("UserDatabase", "updateUser:" + userID);
 
         assert userID != null;
         databaseReference.child(userID).setValue(user);

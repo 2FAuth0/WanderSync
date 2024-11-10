@@ -45,8 +45,6 @@ public class LoginActivity extends AppCompatActivity {
                     mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(LoginActivity.this, task -> {
                             if (task.isSuccessful()) {
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                viewModel.setActiveUser(user.getUid());
                                 // Login success, go to HomeActivity
                                 Toast.makeText(LoginActivity.this,
                                         "Welcome, " + email,
