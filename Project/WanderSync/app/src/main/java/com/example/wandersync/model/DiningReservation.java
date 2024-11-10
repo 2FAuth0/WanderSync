@@ -6,6 +6,10 @@ public class DiningReservation {
     private String website;
     private Double reviews;
 
+    public DiningReservation() {
+        // Default constructor required for calls to DataSnapshot.getValue(User.class)
+    }
+
     public DiningReservation(
             String id, // Unique identifier
             String location,

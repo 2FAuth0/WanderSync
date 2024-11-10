@@ -1,0 +1,59 @@
+<!-- res/layout/item_accommodation_reservation.xml -->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/text_location"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Location: "
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/text_check_in"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Check-in: "
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/text_location"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/text_check_out"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Check-out: "
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/text_check_in"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/text_num_rooms"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Rooms: "
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/text_check_out"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/text_room_type"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Room Type: "
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/text_num_rooms"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

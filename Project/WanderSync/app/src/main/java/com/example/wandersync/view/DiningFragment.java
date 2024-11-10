@@ -4,15 +4,20 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.wandersync.R;
+import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,7 +33,7 @@ public class DiningFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private EditText inputTime;
+    private SingleDateAndTimePicker inputTime;
     private EditText inputLocation;
     private EditText inputWebsite;
 
@@ -76,6 +81,30 @@ public class DiningFragment extends Fragment {
                 reservationForm.setVisibility(View.VISIBLE);
             } else {
                 reservationForm.setVisibility(View.GONE);
+            }
+        });
+
+        inputTime = view.findViewById(R.id.input_time);
+        inputLocation = view.findViewById(R.id.input_location);
+        inputWebsite = view.findViewById(R.id.input_website);
+
+        buttonAddReservation.setOnClickListener(v -> {
+            Date date = inputTime.getDate();
+            String location = inputLocation.getText().toString();
+            String website = inputWebsite.getText().toString();
+
+            // TODO Justin: upload these variables to the dining database (which is connected to the user)
+            if (TextUtils.isEmpty(location)) {
+                Toast.makeText(getContext(), "Location cannot be empty", Toast.LENGTH_SHORT).show();
+            } else if (TextUtils.isEmpty(website)) {
+                Toast.makeText(getContext(), "Website cannot be empty", Toast.LENGTH_SHORT).show();
+            } else {
+                reservationForm.setVisibility(View.GONE);
+                Date curr = new Date();
+                inputTime.setDefaultDate(curr);
+                inputLocation.setText("");
+                inputWebsite.setText("");
+                Toast.makeText(getContext(), "Reservation successfully added", Toast.LENGTH_SHORT).show();
             }
         });
 
