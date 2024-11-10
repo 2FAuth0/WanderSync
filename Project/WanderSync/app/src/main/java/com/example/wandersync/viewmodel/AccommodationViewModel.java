@@ -16,11 +16,13 @@ public class AccommodationViewModel extends ViewModel {
 
     public AccommodationViewModel() {
         accommodationDatabase = AccommodationDatabase.getInstance();
-        accommodationReservationsLiveData = accommodationDatabase.getAccommodationReservationsLiveData();
+        accommodationReservationsLiveData =
+                accommodationDatabase.getAccommodationReservationsLiveData();
     }
 
     // Method to add a new accommodation reservation
-    public void addAccommodationReservation(String location, String checkIn, String checkOut, String numRooms, String roomType) {
+    public void addAccommodationReservation(String location, String checkIn,
+                                            String checkOut, String numRooms, String roomType) {
         Log.d("AccommodationViewModel", "addAccommodationReservation: method called");
 
         AccommodationReservation reservation = new AccommodationReservation(
@@ -42,7 +44,8 @@ public class AccommodationViewModel extends ViewModel {
     }
 
     // Method to update an existing accommodation reservation
-    public void updateAccommodationReservation(String reservationId, AccommodationReservation updatedReservation) {
+    public void updateAccommodationReservation(String reservationId,
+                                               AccommodationReservation updatedReservation) {
         accommodationDatabase.updateAccommodationReservation(reservationId, updatedReservation);
     }
 
@@ -51,7 +54,7 @@ public class AccommodationViewModel extends ViewModel {
         return Transformations.map(accommodationReservationsLiveData, reservations -> {
             List<AccommodationReservation> filteredList = new ArrayList<>();
             for (AccommodationReservation reservation : reservations) {
-                if (reservation.getRoom_Type().equals(roomTypeFilter)) {
+                if (reservation.getRoomType().equals(roomTypeFilter)) {
                     filteredList.add(reservation);
                 }
             }

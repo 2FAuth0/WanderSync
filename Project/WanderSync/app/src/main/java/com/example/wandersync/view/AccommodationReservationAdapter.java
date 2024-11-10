@@ -9,11 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.wandersync.R;
 import com.example.wandersync.model.AccommodationReservation;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
-public class AccommodationReservationAdapter extends RecyclerView.Adapter<AccommodationReservationAdapter.AccommodationViewHolder> {
+public class AccommodationReservationAdapter
+        extends RecyclerView.Adapter<AccommodationReservationAdapter.AccommodationViewHolder> {
 
     private List<AccommodationReservation> accommodationList;
 
@@ -24,7 +23,8 @@ public class AccommodationReservationAdapter extends RecyclerView.Adapter<Accomm
     @NonNull
     @Override
     public AccommodationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_accommodation_reservation, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_accommodation_reservation, parent, false);
         return new AccommodationViewHolder(view);
     }
 
@@ -32,10 +32,10 @@ public class AccommodationReservationAdapter extends RecyclerView.Adapter<Accomm
     public void onBindViewHolder(@NonNull AccommodationViewHolder holder, int position) {
         AccommodationReservation reservation = accommodationList.get(position);
         holder.locationView.setText("Location: " + reservation.getLocation());
-        holder.checkInTextView.setText("Check-in: " + reservation.getCheck_in());
-        holder.checkOutTextView.setText("Check-out: " + reservation.getCheck_out());
-        holder.numRoomsTextView.setText("Rooms: " + reservation.getNum_Rooms());
-        holder.roomTypeTextView.setText("Room Type: " + reservation.getRoom_Type());
+        holder.checkInTextView.setText("Check-in: " + reservation.getCheckIn());
+        holder.checkOutTextView.setText("Check-out: " + reservation.getCheckOut());
+        holder.numRoomsTextView.setText("Rooms: " + reservation.getNumRooms());
+        holder.roomTypeTextView.setText("Room Type: " + reservation.getRoomType());
     }
 
     @Override
@@ -49,11 +49,11 @@ public class AccommodationReservationAdapter extends RecyclerView.Adapter<Accomm
     }
 
     static class AccommodationViewHolder extends RecyclerView.ViewHolder {
-        TextView locationView;
-        TextView checkInTextView;
-        TextView checkOutTextView;
-        TextView numRoomsTextView;
-        TextView roomTypeTextView;
+        private TextView locationView;
+        private TextView checkInTextView;
+        private TextView checkOutTextView;
+        private TextView numRoomsTextView;
+        private TextView roomTypeTextView;
 
         public AccommodationViewHolder(@NonNull View itemView) {
             super(itemView);
