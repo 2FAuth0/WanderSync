@@ -14,7 +14,8 @@ import java.util.List;
 public class AccommodationDatabase {
     private static AccommodationDatabase instance;
     private DatabaseReference databaseReference;
-    private MutableLiveData<List<AccommodationReservation>> accommodationReservationsLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<AccommodationReservation>> accommodationReservationsLiveData =
+            new MutableLiveData<>();
 
     private AccommodationDatabase() {
         // Initialize Firebase Database reference
@@ -34,17 +35,21 @@ public class AccommodationDatabase {
 
     // Method to add an accommodation reservation
     public void addAccommodationReservation(AccommodationReservation reservation) {
-        Log.d("AccommodationDatabase", "addAccommodationReservation: " + reservation.getCheck_in() + " " + reservation.getCheck_out() + " " + reservation.getNum_Rooms() + " " + reservation.getRoom_Type());
+        Log.d("AccommodationDatabase", "addAccommodationReservation: "
+                + reservation.getCheckIn() + " " + reservation.getCheckOut() + " "
+                + reservation.getNumRooms() + " " + reservation.getRoomType());
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         if (uid != null) {
             // Generate a unique key for each accommodation reservation
-            String id = databaseReference.child(uid).child("accommodation_reservations").push().getKey();
+            String id = databaseReference.child(uid).child("accommodation_reservations")
+                    .push().getKey();
             reservation.setId(id);
             Log.d("AccommodationDatabase", "addAccommodationReservation: " + id);
             assert id != null;
 
-            // Save the accommodation reservation under users/{UID}/accommodation_reservations/{ReservationID}
-            databaseReference.child(uid).child("accommodation_reservations").child(id).setValue(reservation);
+            // Save the accommodation under users/{UID}/accommodation_reservations/{ReservationID}
+            databaseReference.child(uid).child("accommodation_reservations")
+                    .child(id).setValue(reservation);
         }
     }
 
@@ -52,13 +57,15 @@ public class AccommodationDatabase {
     public MutableLiveData<List<AccommodationReservation>> getAccommodationReservationsLiveData() {
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         if (uid != null) {
-            DatabaseReference userAccommodationReservationsRef = databaseReference.child(uid).child("accommodation_reservations");
+            DatabaseReference userAccommodationReservationsRef =
+                    databaseReference.child(uid).child("accommodation_reservations");
             userAccommodationReservationsRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     List<AccommodationReservation> reservations = new ArrayList<>();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        AccommodationReservation reservation = snapshot.getValue(AccommodationReservation.class);
+                        AccommodationReservation reservation =
+                                snapshot.getValue(AccommodationReservation.class);
                         reservations.add(reservation);
                     }
                     accommodationReservationsLiveData.setValue(reservations);
@@ -66,7 +73,8 @@ public class AccommodationDatabase {
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    Log.e("AccommodationDatabase", "Error reading data: " + databaseError.getMessage());
+                    Log.e("AccommodationDatabase", "Error reading data: "
+                            + databaseError.getMessage());
                 }
             });
         }
@@ -74,15 +82,18 @@ public class AccommodationDatabase {
     }
 
     // Method to update an existing accommodation reservation
-    public void updateAccommodationReservation(String reservationId, AccommodationReservation updatedReservation) {
+    public void updateAccommodationReservation(String reservationId,
+                                               AccommodationReservation updatedReservation) {
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         if (uid != null && reservationId != null) {
             DatabaseReference reservationRef = databaseReference.child(uid)
                     .child("accommodation_reservations").child(reservationId);
 
             reservationRef.setValue(updatedReservation)
-                    .addOnSuccessListener(aVoid -> Log.d("AccommodationDatabase", "Reservation updated"))
-                    .addOnFailureListener(e -> Log.e("AccommodationDatabase", "Failed to update reservation", e));
+                    .addOnSuccessListener(aVoid -> Log.d("AccommodationDatabase",
+                            "Reservation updated"))
+                    .addOnFailureListener(e -> Log.e("AccommodationDatabase",
+                            "Failed to update reservation", e));
         }
     }
 }
