@@ -112,6 +112,8 @@ public class LogisticsFragment extends Fragment {
         });
         sendInvite.setOnClickListener(v -> {
             destinationViewModel.addUserToTrip(String.valueOf(userToInvite.getText()));
+            inviteForm.setVisibility(View.GONE);
+            userToInvite.setText("");
         });
 
 
@@ -128,6 +130,8 @@ public class LogisticsFragment extends Fragment {
         });
         addNote.setOnClickListener(v -> {
             destinationViewModel.addNote(String.valueOf(notesText.getText()));
+            notesForm.setVisibility(View.GONE);
+            notesText.setText("");
         });
 
         pieChart = view.findViewById(R.id.piechart);
