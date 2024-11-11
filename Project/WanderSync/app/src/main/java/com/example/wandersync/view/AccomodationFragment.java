@@ -3,17 +3,18 @@ package com.example.wandersync.view;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -46,6 +47,8 @@ public class AccomodationFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private int sortOrder = -1;
+    private List<AccommodationReservation> currentReservations = new ArrayList<>();
     private Spinner spinnerRooms;
     private Spinner spinnerRoomType;
     private EditText inputLocation;
@@ -53,6 +56,7 @@ public class AccomodationFragment extends Fragment {
     private EditText inputCheckOut;
     private AccommodationViewModel accommodationViewModel;
     private RecyclerView recyclerAccommodations;
+    private SimpleDateFormat sdf;
 
 
     public AccomodationFragment() {
@@ -84,7 +88,7 @@ public class AccomodationFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         accommodationViewModel = new ViewModelProvider(this).get(AccommodationViewModel.class);
-
+        sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     }
 
     @Override
@@ -101,13 +105,32 @@ public class AccomodationFragment extends Fragment {
         recyclerAccommodations.setAdapter(adapter);
 
         accommodationViewModel.getAccommodationReservations().observe(getViewLifecycleOwner(),
-                new Observer<List<AccommodationReservation>>() {
-                    @Override
-                    public void onChanged(List<AccommodationReservation>
-                                                  accommodationReservations) {
-                        adapter.setAccommodationList(accommodationReservations);
-                    }
+                accommodationReservations -> {
+                    Log.d("DiningFragment", "Number of reservations found:"
+                            + String.valueOf(accommodationReservations.size()));
+                    currentReservations = accommodationReservations;
+                    adapter.setAccommodationList(accommodationReservations);
                 });
+
+        ImageButton sortButton = view.findViewById(R.id.button_sort_accommodations);
+
+        sortButton.setOnClickListener(v -> {
+            sortOrder *= -1;
+            adapter.notifyDataSetChanged();
+            currentReservations.sort((reservation1, reservation2) -> {
+                try {
+                    if (sdf.parse(reservation1.getCheckIn()).getTime()
+                            > sdf.parse(reservation2.getCheckIn()).getTime()) {
+                        return sortOrder;
+                    } else {
+                        return -1 * sortOrder;
+                    }
+                } catch (ParseException e) {
+                    return 0;
+                }
+            });
+            adapter.setAccommodationList(currentReservations);
+        });
 
         FloatingActionButton buttonOpenAccomodationForm =
                 view.findViewById(R.id.button_open_accomodation_form);
@@ -154,7 +177,7 @@ public class AccomodationFragment extends Fragment {
     }
 
     public boolean areDatesValid(String startDate, String endDate) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
         sdf.setLenient(false);
 
         try {

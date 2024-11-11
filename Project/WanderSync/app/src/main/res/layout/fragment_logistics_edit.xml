@@ -55,8 +55,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp" />
 
-        <!-- RecyclerView below Contributors -->
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/trip_contributors"
             android:layout_width="348dp"
@@ -66,6 +64,29 @@
             app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_contributors" />
+
+        <TextView
+            android:id="@+id/text_notes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notes"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/trip_contributors"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/trip_notes"
+            android:layout_width="348dp"
+            android:layout_height="201dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.492"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_notes" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/invite_users"
