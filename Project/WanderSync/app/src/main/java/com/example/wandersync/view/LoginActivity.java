@@ -8,22 +8,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.wandersync.R;
-import com.example.wandersync.viewmodel.UserViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
-    private UserViewModel viewModel;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        viewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         TextInputEditText emailInput = findViewById(R.id.emailInput);
         TextInputEditText passwordInput = findViewById(R.id.passwordInput);

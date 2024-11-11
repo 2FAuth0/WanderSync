@@ -9,7 +9,6 @@ import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 import com.example.wandersync.model.AccommodationDatabase;
 import com.example.wandersync.model.AccommodationReservation;
-import com.example.wandersync.model.TravelLog;
 import com.example.wandersync.model.Trip;
 import com.example.wandersync.model.TripDatabase;
 import com.example.wandersync.model.User;
@@ -26,7 +25,8 @@ public class AccommodationViewModel extends ViewModel {
     private MutableLiveData<User> userLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Trip>> allTripLiveData = new MutableLiveData<>();
     private LiveData<Trip> tripLiveData = new MutableLiveData<>();
-    private LiveData<List<AccommodationReservation>> tripAccomodationsLiveData = new MutableLiveData<>();
+    private LiveData<List<AccommodationReservation>>
+            tripAccomodationsLiveData = new MutableLiveData<>();
 
     private LiveData<List<AccommodationReservation>> accommodationReservationsLiveData;
 
@@ -35,7 +35,8 @@ public class AccommodationViewModel extends ViewModel {
         userDatabase = UserDatabase.getInstance();
         tripDatabase = TripDatabase.getInstance();
 
-        accommodationReservationsLiveData = accommodationDatabase.getAccommodationReservationsLiveData();
+        accommodationReservationsLiveData =
+                accommodationDatabase.getAccommodationReservationsLiveData();
         userLiveData =
                 userDatabase.getUserData(FirebaseAuth.getInstance().getCurrentUser().getUid());
         allTripLiveData = tripDatabase.getTripData();
