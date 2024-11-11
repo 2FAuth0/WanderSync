@@ -116,7 +116,7 @@
             android:layout_marginBottom="8dp"
             android:orientation="vertical"
             android:padding="16dp"
-
+            android:background="@color/white"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/add_notes"
             app:layout_constraintStart_toStartOf="parent">
@@ -147,7 +147,7 @@
             android:layout_marginBottom="8dp"
             android:orientation="vertical"
             android:padding="16dp"
-
+            android:background="@color/white"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/invite_users"
             app:layout_constraintStart_toStartOf="parent">

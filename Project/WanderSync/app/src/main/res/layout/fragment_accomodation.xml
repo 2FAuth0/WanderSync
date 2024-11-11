@@ -21,26 +21,14 @@
         android:layout_height="match_parent"
         android:layout_marginTop="56dp">
 
-        <!-- Title TextView -->
-        <TextView
-            android:id="@+id/title_accommodations"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Accommodations"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="8dp" />
+
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="521dp"
-            android:layout_marginTop="50dp"
+            android:layout_height="598dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title_accommodations">
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
