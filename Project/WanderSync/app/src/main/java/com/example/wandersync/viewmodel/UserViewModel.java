@@ -1,12 +1,9 @@
 package com.example.wandersync.viewmodel;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.wandersync.model.TripDatabase;
-import com.example.wandersync.model.User;
 import com.example.wandersync.model.UserDatabase;
-import com.example.wandersync.model.VacationTime;
 import com.google.firebase.auth.FirebaseUser;
 
 public class UserViewModel extends ViewModel {
@@ -21,6 +18,5 @@ public class UserViewModel extends ViewModel {
     public void addUser(String email, FirebaseUser firebaseUser) {
         String tripID = tripDatabase.addTrip(email);
         userDatabase.addUser(email, firebaseUser.getUid(), tripID);
-
     }
 }

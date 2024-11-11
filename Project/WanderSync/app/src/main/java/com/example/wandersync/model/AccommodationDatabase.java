@@ -2,7 +2,6 @@ package com.example.wandersync.model;
 
 import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,8 +19,8 @@ import java.util.List;
 public class AccommodationDatabase {
     private static AccommodationDatabase instance;
     private DatabaseReference databaseReference;
-    private MutableLiveData<List<AccommodationReservation>> accommodationReservationsLiveData
-            = new MutableLiveData<>();
+    private MutableLiveData<List<AccommodationReservation>>
+            accommodationReservationsLiveData = new MutableLiveData<>();
 
     private AccommodationDatabase() {
         // Initialize Firebase Database reference
@@ -42,7 +41,10 @@ public class AccommodationDatabase {
 
     // Method to add an accommodation reservation
     public String addAccommodationReservation(AccommodationReservation reservation) {
-        Log.d("AccommodationDatabase", "addAccommodationReservation: " + reservation.getCheckIn() + " " + reservation.getCheckOut() + " " + reservation.getNumRooms() + " " + reservation.getRoomType());
+        Log.d("AccommodationDatabase", "addAccommodationReservation: " + reservation.getCheckIn()
+                + " " + reservation.getCheckOut() + " "
+                + reservation.getNumRooms() + " "
+                + reservation.getRoomType());
         String id = databaseReference.push().getKey();
         reservation.setId(id);
         Log.d("AccommodationDatabase", "addAccommodationReservation: " + id);

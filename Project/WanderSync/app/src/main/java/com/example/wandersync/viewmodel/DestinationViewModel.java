@@ -55,17 +55,17 @@ public class DestinationViewModel extends ViewModel {
 
 
         tripTravelLogsLiveData = Transformations.switchMap(tripLiveData, trip ->
-                Transformations.map(travelLogsLiveData, travelLogs -> {
-            List<TravelLog> filteredLogs = new ArrayList<>();
-            if (trip != null && trip.getTravelLogs() != null) {
-                for (TravelLog log : travelLogs) {
-                    if (trip.getTravelLogs().contains(log.getId())) {
-                        filteredLogs.add(log);
+            Transformations.map(travelLogsLiveData, travelLogs -> {
+                List<TravelLog> filteredLogs = new ArrayList<>();
+                if (trip != null && trip.getTravelLogs() != null) {
+                    for (TravelLog log : travelLogs) {
+                        if (trip.getTravelLogs().contains(log.getId())) {
+                            filteredLogs.add(log);
+                        }
                     }
                 }
-            }
-            return filteredLogs;
-        }));
+                return filteredLogs;
+            }));
 
         contributorsLiveData = Transformations.map(tripLiveData, trip -> {
             if (trip != null && trip.getUsers() != null) {
@@ -87,7 +87,7 @@ public class DestinationViewModel extends ViewModel {
             int totalPlannedDays = 0;
 
             for (TravelLog log : travelLogs) {
-                    totalPlannedDays += Integer.parseInt(log.getDuration());
+                totalPlannedDays += Integer.parseInt(log.getDuration());
             }
 
             return totalPlannedDays;
@@ -145,7 +145,7 @@ public class DestinationViewModel extends ViewModel {
     }
 
     public boolean addUserToTrip(String email) {
-        Log.d("DestinationViewModel", "addUserToTrip: Add user with email "+ email);
+        Log.d("DestinationViewModel", "addUserToTrip: Add user with email " + email);
         User foundUser = null;
 
         for (User u: allUserLiveData.getValue()) {
@@ -156,7 +156,8 @@ public class DestinationViewModel extends ViewModel {
         }
 
         if (foundUser != null && foundUser.getTripID() != null) {
-            Log.d("DestinationViewModel", "addUserToTrip: found user with trip id " +foundUser.getTripID());
+            Log.d("DestinationViewModel", "addUserToTrip: found user with trip id "
+                    + foundUser.getTripID());
             String foundUserTripID = foundUser.getTripID();
             List<Trip> allTrips = allTripLiveData.getValue();
             Trip foundTrip = null;

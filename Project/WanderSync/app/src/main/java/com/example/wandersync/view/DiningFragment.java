@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.wandersync.R;
+import com.example.wandersync.model.DiningReservation;
 import com.example.wandersync.viewmodel.DiningViewModel;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -26,8 +27,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -40,11 +41,12 @@ public class DiningFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private int sortOrder = -1;
     private String mParam1;
     private String mParam2;
     private SimpleDateFormat sdf;
     private DiningViewModel diningViewModel;
+    private List<DiningReservation> currentReservations = new ArrayList<>();
 
     private SingleDateAndTimePicker inputTime;
     private EditText inputLocation;
@@ -92,6 +94,7 @@ public class DiningFragment extends Fragment {
                 view.findViewById(R.id.button_add_reservation);
         LinearLayout reservationForm = view.findViewById(R.id.reservation_form);
         Button buttonAddReservation = view.findViewById(R.id.button_submit_reservation);
+        ImageButton sortButton = view.findViewById(R.id.button_sort_reservations);
 
 
         recyclerDining = view.findViewById(R.id.reservation_list);
@@ -103,22 +106,30 @@ public class DiningFragment extends Fragment {
 
         diningViewModel.getDiningReservations().observe(getViewLifecycleOwner(),
             diningReservations -> {
-                Log.d("DiningFragment", "Number of reservations found:" + String.valueOf(diningReservations.size()));
-                diningReservations.sort((reservation1, reservation2) -> {
-                    try {
-                        if (sdf.parse(reservation1.getTiming()).getTime()
-                                > sdf.parse(reservation2.getTiming()).getTime()) {
-                            return 1;
-                        } else {
-                            return -1;
-                        }
-                    } catch (ParseException e) {
-                        return 0;
-                    }
-                });
-                adapter.setDiningList(diningReservations);
+                Log.d("DiningFragment", "Number of reservations found:"
+                        + String.valueOf(diningReservations.size()));
+                currentReservations = diningReservations;
+                adapter.setDiningList(currentReservations);
             });
 
+
+        sortButton.setOnClickListener(v -> {
+            sortOrder *= -1;
+            adapter.notifyDataSetChanged();
+            currentReservations.sort((reservation1, reservation2) -> {
+                try {
+                    if (sdf.parse(reservation1.getTiming()).getTime()
+                            > sdf.parse(reservation2.getTiming()).getTime()) {
+                        return sortOrder;
+                    } else {
+                        return -1 * sortOrder;
+                    }
+                } catch (ParseException e) {
+                    return 0;
+                }
+            });
+            adapter.setDiningList(currentReservations);
+        });
 
 
         buttonOpenReservationForm.setOnClickListener(v -> {
@@ -146,7 +157,7 @@ public class DiningFragment extends Fragment {
                 Toast.makeText(getContext(), "Website cannot be empty",
                         Toast.LENGTH_SHORT).show();
             } else {
-                diningViewModel.addDiningReservation(location,website,timing);
+                diningViewModel.addDiningReservation(location, website, timing);
                 reservationForm.setVisibility(View.GONE);
                 Date reset = new Date();
                 inputTime.setDefaultDate(reset);

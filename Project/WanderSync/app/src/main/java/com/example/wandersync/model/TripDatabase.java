@@ -81,7 +81,8 @@ public class TripDatabase {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.d("TripDatabase", "url:"
                         + databaseReference.child(tripID).toString() + "getTripData:" + tripID);
-                com.example.wandersync.model.Trip trip = dataSnapshot.getValue(com.example.wandersync.model.Trip.class);
+                com.example.wandersync.model.Trip trip =
+                        dataSnapshot.getValue(com.example.wandersync.model.Trip.class);
                 if (trip != null) {
                     Log.d("TripDatabase", "Retrieved trip data for: "
                             + tripID);

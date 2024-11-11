@@ -9,7 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.wandersync.R;
 import com.example.wandersync.model.AccommodationReservation;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class AccommodationReservationAdapter
         extends RecyclerView.Adapter<AccommodationReservationAdapter.AccommodationViewHolder> {
@@ -30,18 +34,22 @@ public class AccommodationReservationAdapter
 
     @Override
     public void onBindViewHolder(@NonNull AccommodationViewHolder holder, int position) {
+
         AccommodationReservation reservation = accommodationList.get(position);
         holder.locationView.setText("Location: " + reservation.getLocation());
         holder.checkInTextView.setText("Check-in: " + reservation.getCheckIn());
         holder.checkOutTextView.setText("Check-out: " + reservation.getCheckOut());
         holder.numRoomsTextView.setText("Rooms: " + reservation.getNumRooms());
         holder.roomTypeTextView.setText("Room Type: " + reservation.getRoomType());
-        // Set visibility of past indicator
-        if (reservation.isPast()) {
-            holder.textPastIndicator.setVisibility(View.VISIBLE);
-        } else {
-            holder.textPastIndicator.setVisibility(View.GONE);
-        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        try {
+            if (sdf.parse(reservation.getCheckIn()).getTime() > (new Date()).getTime()) {
+                holder.pastAccommodationTextView.setText("");
+            } else {
+                holder.pastAccommodationTextView.setText("PAST");
+            }
+        } catch (ParseException e) { }
     }
 
     @Override
@@ -60,7 +68,7 @@ public class AccommodationReservationAdapter
         private TextView checkOutTextView;
         private TextView numRoomsTextView;
         private TextView roomTypeTextView;
-        private TextView textPastIndicator;
+        private TextView pastAccommodationTextView;
 
         public AccommodationViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -69,7 +77,7 @@ public class AccommodationReservationAdapter
             checkOutTextView = itemView.findViewById(R.id.text_check_out);
             numRoomsTextView = itemView.findViewById(R.id.text_num_rooms);
             roomTypeTextView = itemView.findViewById(R.id.text_room_type);
-            textPastIndicator = itemView.findViewById(R.id.text_past_indicator);
+            pastAccommodationTextView = itemView.findViewById(R.id.past_label);
         }
     }
 }
