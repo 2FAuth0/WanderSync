@@ -3,7 +3,6 @@ package com.example.wandersync.view;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,7 +20,6 @@ import android.widget.Toast;
 
 import com.example.wandersync.R;
 import com.example.wandersync.model.DiningReservation;
-import com.example.wandersync.model.TravelLog;
 import com.example.wandersync.viewmodel.DiningViewModel;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

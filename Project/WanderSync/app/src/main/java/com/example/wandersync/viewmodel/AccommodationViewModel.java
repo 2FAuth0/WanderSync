@@ -66,23 +66,24 @@ public class AccommodationViewModel extends ViewModel {
     public void changeActiveTrip(int tripNumber) {
         tripLiveData = Transformations.switchMap(userLiveData, user -> {
             if (user != null && user.getTripID() != null) {
-                return tripDatabase.getTripDataByID(user.getTrips().get(tripNumber % user.getTrips().size()));
+                return tripDatabase.getTripDataByID(
+                        user.getTrips().get(tripNumber % user.getTrips().size()));
             }
             return new MutableLiveData<>(null);
         });
 
         tripAccomodationsLiveData = Transformations.switchMap(tripLiveData, trip ->
-                Transformations.map(accommodationReservationsLiveData, accommodationReservations -> {
-                    List<AccommodationReservation> filteredReservations = new ArrayList<>();
-                    if (trip != null && trip.getAccommodationReservations() != null) {
-                        for (AccommodationReservation reservation : accommodationReservations) {
-                            if (trip.getAccommodationReservations().contains(reservation.getId())) {
-                                filteredReservations.add(reservation);
-                            }
+            Transformations.map(accommodationReservationsLiveData, accommodationReservations -> {
+                List<AccommodationReservation> filteredReservations = new ArrayList<>();
+                if (trip != null && trip.getAccommodationReservations() != null) {
+                    for (AccommodationReservation reservation : accommodationReservations) {
+                        if (trip.getAccommodationReservations().contains(reservation.getId())) {
+                            filteredReservations.add(reservation);
                         }
                     }
-                    return filteredReservations;
-                }));
+                }
+                return filteredReservations;
+            }));
     }
 
     public void addTrip() {

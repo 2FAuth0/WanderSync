@@ -90,9 +90,10 @@ public class LogisticsFragment extends Fragment {
         switchTripRight.setOnClickListener(v -> {
             tripNumber++;
             destinationViewModel.changeActiveTrip(tripNumber);
-            destinationViewModel.getContributors().observe(getViewLifecycleOwner(), contributors -> {
-                contributorAdapter.setContributors(contributors);
-            });
+            destinationViewModel.getContributors().observe(
+                    getViewLifecycleOwner(), contributors -> {
+                        contributorAdapter.setContributors(contributors);
+                    });
             destinationViewModel.getNotes().observe(getViewLifecycleOwner(), notes -> {
                 notesAdapter.setContributors(notes);
             });
@@ -100,9 +101,10 @@ public class LogisticsFragment extends Fragment {
         switchTripLeft.setOnClickListener(v -> {
             tripNumber--;
             destinationViewModel.changeActiveTrip(tripNumber);
-            destinationViewModel.getContributors().observe(getViewLifecycleOwner(), contributors -> {
-                contributorAdapter.setContributors(contributors);
-            });
+            destinationViewModel.getContributors().observe(
+                    getViewLifecycleOwner(), contributors -> {
+                        contributorAdapter.setContributors(contributors);
+                    });
             destinationViewModel.getNotes().observe(getViewLifecycleOwner(), notes -> {
                 notesAdapter.setContributors(notes);
             });

@@ -64,7 +64,8 @@ public class DiningViewModel extends ViewModel {
     public void changeActiveTrip(int tripNumber) {
         tripLiveData = Transformations.switchMap(userLiveData, user -> {
             if (user != null && user.getTripID() != null) {
-                return tripDatabase.getTripDataByID(user.getTrips().get(tripNumber % user.getTrips().size()));
+                return tripDatabase.getTripDataByID(
+                        user.getTrips().get(tripNumber % user.getTrips().size()));
             }
             return new MutableLiveData<>(null);
         });

@@ -118,7 +118,8 @@ public class DestinationViewModel extends ViewModel {
     public void changeActiveTrip(int tripNumber) {
         tripLiveData = Transformations.switchMap(userLiveData, user -> {
             if (user != null && user.getTripID() != null) {
-                return tripDatabase.getTripDataByID(user.getTrips().get(tripNumber % user.getTrips().size()));
+                return tripDatabase.getTripDataByID(
+                        user.getTrips().get(tripNumber % user.getTrips().size()));
             }
             return new MutableLiveData<>(null);
         });
@@ -166,11 +167,15 @@ public class DestinationViewModel extends ViewModel {
         userDatabase.updateUser(currentUser);
     }
 
-    public void addTravelLog(int tripNumber, String location, String startDate, String endDate, String duration) {
+    public void addTravelLog(int tripNumber, String location,
+                             String startDate, String endDate, String duration) {
         TravelLog travelLog = new TravelLog(null, location, startDate, endDate, duration);
         String logId = destinationDatabase.addTravelLog(travelLog);
-        if (userLiveData.getValue() != null && userLiveData.getValue().getTrips().get(tripNumber % userLiveData.getValue().getTrips().size()) != null) {
-            String tripId = userLiveData.getValue().getTrips().get(tripNumber % userLiveData.getValue().getTrips().size());
+        if (userLiveData.getValue() != null
+                && userLiveData.getValue().getTrips().get(tripNumber
+                % userLiveData.getValue().getTrips().size()) != null) {
+            String tripId = userLiveData.getValue().getTrips()
+                    .get(tripNumber % userLiveData.getValue().getTrips().size());
             Observer<Trip> oneTimeObserver = new Observer<Trip>() {
                 @Override
                 public void onChanged(Trip trip) {
@@ -224,7 +229,8 @@ public class DestinationViewModel extends ViewModel {
 
 
             for (Trip t: allTrips) {
-                if (userLiveData.getValue().getTrips().get(tripNumber % userLiveData.getValue().getTrips().size()).equals(t.getId())) {
+                if (userLiveData.getValue().getTrips().get(tripNumber
+                        % userLiveData.getValue().getTrips().size()).equals(t.getId())) {
                     foundTrip.merge(t);
                     break;
                 }
@@ -248,7 +254,8 @@ public class DestinationViewModel extends ViewModel {
         List<Trip> allTrips = allTripLiveData.getValue();
         Trip foundTrip = null;
         for (Trip t: allTrips) {
-            if (userLiveData.getValue().getTrips().get(tripNumber % userLiveData.getValue().getTrips().size()).equals(t.getId())) {
+            if (userLiveData.getValue().getTrips().get(
+                    tripNumber % userLiveData.getValue().getTrips().size()).equals(t.getId())) {
                 foundTrip = t;
                 break;
             }
