@@ -6,18 +6,21 @@ public class TravelPost {
     private AccommodationReservation accommodations;
     private DiningReservation diningReservations;
     private String transportation;
+    private String notes;
 
     public TravelPost() {
         // Default constructor required for firebase
     }
 
     public TravelPost(String id, TravelLog travelLog, AccommodationReservation accommodations,
-                      DiningReservation diningReservations, String transportation) {
+                      DiningReservation diningReservations, String transportation, String notes) {
         this.id = id;
         this.travelLog = travelLog;
         this.accommodations = accommodations;
         this.diningReservations = diningReservations;
         this.transportation = transportation;
+        this.notes = notes;
+
     }
 
     // Getters and Setters
@@ -59,5 +62,13 @@ public class TravelPost {
 
     public void setTransportation(String transportation) {
         this.transportation = transportation;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }
