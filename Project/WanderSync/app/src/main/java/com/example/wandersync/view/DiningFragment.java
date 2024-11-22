@@ -3,6 +3,7 @@ package com.example.wandersync.view;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.wandersync.R;
 import com.example.wandersync.model.DiningReservation;
+import com.example.wandersync.model.TravelLog;
 import com.example.wandersync.viewmodel.DiningViewModel;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -44,6 +46,12 @@ public class DiningFragment extends Fragment {
     private int sortOrder = -1;
     private String mParam1;
     private String mParam2;
+
+    private Button switchTripLeft;
+    private Button switchTripRight;
+    private Button addTrip;
+    private int tripNumber = 0;
+
     private SimpleDateFormat sdf;
     private DiningViewModel diningViewModel;
     private List<DiningReservation> currentReservations = new ArrayList<>();
@@ -103,6 +111,40 @@ public class DiningFragment extends Fragment {
         DiningReservationAdapter adapter =
                 new DiningReservationAdapter(new ArrayList<>());
         recyclerDining.setAdapter(adapter);
+
+
+        switchTripLeft = view.findViewById(R.id.switchTripLeft);
+        switchTripRight = view.findViewById(R.id.switchTripRight);
+        addTrip = view.findViewById(R.id.addTrip);
+
+        switchTripRight.setOnClickListener(v -> {
+            tripNumber++;
+            diningViewModel.changeActiveTrip(tripNumber);
+            diningViewModel.getDiningReservations().observe(getViewLifecycleOwner(),
+                    diningReservations -> {
+                        Log.d("DiningFragment", "Number of reservations found:"
+                                + String.valueOf(diningReservations.size()));
+                        currentReservations = diningReservations;
+                        adapter.setDiningList(currentReservations);
+                    });
+        });
+        switchTripLeft.setOnClickListener(v -> {
+            tripNumber--;
+            diningViewModel.changeActiveTrip(tripNumber);
+            diningViewModel.getDiningReservations().observe(getViewLifecycleOwner(),
+                    diningReservations -> {
+                        Log.d("DiningFragment", "Number of reservations found:"
+                                + String.valueOf(diningReservations.size()));
+                        currentReservations = diningReservations;
+                        adapter.setDiningList(currentReservations);
+                    });
+
+        });
+        addTrip.setOnClickListener(v -> {
+            diningViewModel.addTrip();
+        });
+
+
 
         diningViewModel.getDiningReservations().observe(getViewLifecycleOwner(),
             diningReservations -> {

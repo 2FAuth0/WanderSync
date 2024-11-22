@@ -8,8 +8,7 @@ public class User {
     private String id;
     private List<VacationTime> allottedVacation;
     private String tripID;
-    private List<String> diningReservationIDs;
-    private List<String> accommodationReservationIDs;
+    private List<String> trips;
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
@@ -19,6 +18,7 @@ public class User {
         this.email = email;
         this.id = id;
         this.tripID = tripID;
+        this.addTrip(tripID);
     }
 
     public void addVacationTime(VacationTime v) {
@@ -26,6 +26,13 @@ public class User {
             this.allottedVacation = new ArrayList<>();
         }
         allottedVacation.add(v);
+    }
+
+    public void addTrip(String id) {
+        if (trips == null) {
+            this.trips = new ArrayList<>();
+        }
+        trips.add(id);
     }
 
     public String getEmail() {
@@ -36,20 +43,6 @@ public class User {
         this.email = email;
     }
 
-    public void addDiningReservation(String id) {
-        if (diningReservationIDs == null) {
-            this.diningReservationIDs = new ArrayList<>();
-        }
-        diningReservationIDs.add(id);
-    }
-
-    // Method to add an accommodation reservation ID
-    public void addAccommodationReservation(String id) {
-        if (accommodationReservationIDs == null) {
-            this.accommodationReservationIDs = new ArrayList<>();
-        }
-        accommodationReservationIDs.add(id);
-    }
 
     public String getId() {
         return id;
@@ -75,12 +68,12 @@ public class User {
         this.tripID = tripID;
     }
 
-    public List<String> getDiningReservationIDs() {
-        return this.diningReservationIDs;
+    public List<String> getTrips() {
+        return trips;
     }
 
-    public List<String> getAccommodationReservationIDs() {
-        return this.accommodationReservationIDs;
+    public void setTrips(List<String> trips) {
+        this.trips = trips;
     }
 }
 

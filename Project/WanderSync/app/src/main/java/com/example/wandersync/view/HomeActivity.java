@@ -8,17 +8,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.wandersync.R;
-import com.example.wandersync.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
-    private ActivityMainBinding binding;
     @Override
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
         //setContentView(binding.getRoot());
-        setContentView(R.layout.fragment_logistics);
+        setContentView(R.layout.activity_home);
 
         BottomNavigationView menuBar = findViewById(R.id.bottom_nav);
         replaceFragment(new LogisticsFragment());

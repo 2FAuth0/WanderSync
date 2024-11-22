@@ -39,6 +39,9 @@ public class DestinationFragment extends Fragment {
     private Button  buttonCancelLog;
     private Button  buttonSubmitLog;
     private Button  buttonOpenCalculateDurationForm;
+    private Button switchTripLeft;
+    private Button switchTripRight;
+    private Button addTrip;
     private LinearLayout logForm;
     private LinearLayout  calculateDurationForm;
     private EditText  inputLocation;
@@ -49,16 +52,15 @@ public class DestinationFragment extends Fragment {
     private EditText inputDuration;
     private RecyclerView recyclerTravelLogs;
     private DestinationViewModel destinationViewModel;
+    private int tripNumber = 0;
 
     public DestinationFragment() {
         // Required empty public constructor
     }
 
-    public static DestinationFragment newInstance(String param1, String param2) {
+    public static DestinationFragment newInstance() {
         DestinationFragment fragment = new DestinationFragment();
         Bundle args = new Bundle();
-        args.putString("param1", param1);
-        args.putString("param2", param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,10 +68,6 @@ public class DestinationFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            String mParam1 = getArguments().getString("param1");
-            String mParam2 = getArguments().getString("param2");
-        }
         destinationViewModel = new ViewModelProvider(this).get(DestinationViewModel.class);
     }
 
@@ -107,6 +105,39 @@ public class DestinationFragment extends Fragment {
         TravelLogAdapter adapter = new TravelLogAdapter(new ArrayList<>());
         recyclerTravelLogs.setAdapter(adapter);
 
+
+        switchTripLeft = view.findViewById(R.id.switchTripLeft);
+        switchTripRight = view.findViewById(R.id.switchTripRight);
+        addTrip = view.findViewById(R.id.addTrip);
+
+        switchTripRight.setOnClickListener(v -> {
+            tripNumber++;
+            destinationViewModel.changeActiveTrip(tripNumber);
+            destinationViewModel.getTravelLogs().observe(getViewLifecycleOwner(),
+                new Observer<List<TravelLog>>() {
+                    @Override
+                    public void onChanged(List<TravelLog> travelLogs) {
+                        adapter.setTravelLogs(travelLogs);
+                    }
+                });
+        });
+        switchTripLeft.setOnClickListener(v -> {
+            tripNumber--;
+            destinationViewModel.changeActiveTrip(tripNumber);
+            destinationViewModel.getTravelLogs().observe(getViewLifecycleOwner(),
+                new Observer<List<TravelLog>>() {
+                    @Override
+                    public void onChanged(List<TravelLog> travelLogs) {
+                        adapter.setTravelLogs(travelLogs);
+                    }
+                });
+
+        });
+        addTrip.setOnClickListener(v -> {
+            destinationViewModel.addTrip();
+        });
+
+
         destinationViewModel.getTravelLogs().observe(getViewLifecycleOwner(),
                 new Observer<List<TravelLog>>() {
                 @Override
@@ -143,7 +174,8 @@ public class DestinationFragment extends Fragment {
             if (TextUtils.isEmpty(location)) {
                 Toast.makeText(getContext(), "Location cannot be empty", Toast.LENGTH_SHORT).show();
             } else if (areDatesValid(startDate, endDate)) {
-                destinationViewModel.addTravelLog(location, startDate, endDate, duration);
+                destinationViewModel.addTravelLog(
+                        tripNumber, location, startDate, endDate, duration);
 
                 logForm.setVisibility(View.GONE);
                 inputLocation.setText("");
@@ -173,13 +205,13 @@ public class DestinationFragment extends Fragment {
             String endDate = inputVacationEnd.getText().toString();
             String durationStr = inputDuration.getText().toString();
             int duration = 0;
-            if (durationStr.equals("") && startDate.equals("")
-                    || durationStr.equals("") && endDate.equals("")
-                    || startDate.equals("") && endDate.equals("")) {
+            if (durationStr.isEmpty() && startDate.isEmpty()
+                    || durationStr.isEmpty() && endDate.isEmpty()
+                    || startDate.isEmpty() && endDate.isEmpty()) {
                 Toast.makeText(getContext(),
                         "Populate at least 2 fields to calculate dates or duration.",
                         Toast.LENGTH_SHORT).show();
-            } else if (durationStr.equals("")) {
+            } else if (durationStr.isEmpty()) {
                 duration = calculateDuration(startDate, endDate);
                 if (duration > 0) {
                     inputDuration.setText(String.valueOf(duration));
@@ -192,10 +224,10 @@ public class DestinationFragment extends Fragment {
                                 "Duration must be a positive whole number.",
                                 Toast.LENGTH_SHORT).show();
                     } else {
-                        if (startDate.equals("")) {
+                        if (startDate.isEmpty()) {
                             startDate = calculateDate(endDate, -1 * duration);
                             inputVacationStart.setText(startDate);
-                        } else if (endDate.equals("")) {
+                        } else if (endDate.isEmpty()) {
                             endDate = calculateDate(startDate, duration);
                             inputVacationEnd.setText(endDate);
                         }
@@ -206,7 +238,7 @@ public class DestinationFragment extends Fragment {
                 }
             }
 
-            if (!(durationStr.equals("") || startDate.equals("") || endDate.equals(""))) {
+            if (!(durationStr.isEmpty() || startDate.isEmpty() || endDate.isEmpty())) {
                 destinationViewModel.addVacationTime(startDate, endDate, duration);
             }
         });

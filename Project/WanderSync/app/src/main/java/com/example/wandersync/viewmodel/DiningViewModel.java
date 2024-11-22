@@ -61,6 +61,35 @@ public class DiningViewModel extends ViewModel {
             }));
     }
 
+    public void changeActiveTrip(int tripNumber) {
+        tripLiveData = Transformations.switchMap(userLiveData, user -> {
+            if (user != null && user.getTripID() != null) {
+                return tripDatabase.getTripDataByID(user.getTrips().get(tripNumber % user.getTrips().size()));
+            }
+            return new MutableLiveData<>(null);
+        });
+
+        tripDiningLiveData = Transformations.switchMap(tripLiveData, trip ->
+                Transformations.map(diningReservationsLiveData, diningReservations -> {
+                    List<DiningReservation> filteredReservations = new ArrayList<>();
+                    if (trip != null && trip.getDiningReservations() != null) {
+                        for (DiningReservation reservation : diningReservations) {
+                            if (trip.getDiningReservations().contains(reservation.getId())) {
+                                filteredReservations.add(reservation);
+                            }
+                        }
+                    }
+                    return filteredReservations;
+                }));
+    }
+
+    public void addTrip() {
+        User currentUser = userLiveData.getValue();
+        String tripID = tripDatabase.addTrip(currentUser.getEmail());
+        currentUser.addTrip(tripID);
+        userDatabase.updateUser(currentUser);
+    }
+
     // Method to add a new dining reservation
     public void addDiningReservation(String location,
                                      String website,
