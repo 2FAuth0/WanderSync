@@ -1,24 +1,26 @@
 package com.example.wandersync.model;
 
-import java.util.List;
-
 public class TravelPost {
-    private String id; // Unique post id
+    private String id; // Unique identifier
     private TravelLog travelLog;
-    private List<AccommodationReservation> accommodations;
-    private List<DiningReservation> diningReservations;
+    private AccommodationReservation accommodations;
+    private DiningReservation diningReservations;
+    private String transportation;
 
     public TravelPost() {
-        // Default constructor for firebase
+        // Default constructor required for firebase
     }
 
-    public TravelPost(String id, TravelLog travelLog, List<AccommodationReservation> accommodations, List<DiningReservation> diningReservations) {
+    public TravelPost(String id, TravelLog travelLog, AccommodationReservation accommodations,
+                      DiningReservation diningReservations, String transportation) {
         this.id = id;
         this.travelLog = travelLog;
         this.accommodations = accommodations;
         this.diningReservations = diningReservations;
+        this.transportation = transportation;
     }
 
+    // Getters and Setters
     public String getId() {
         return id;
     }
@@ -35,20 +37,27 @@ public class TravelPost {
         this.travelLog = travelLog;
     }
 
-    public List<AccommodationReservation> getAccommodations() {
+    public AccommodationReservation getAccommodations() {
         return accommodations;
     }
 
-    public void setAccommodations(List<AccommodationReservation> accommodations) {
+    public void setAccommodations(AccommodationReservation accommodations) {
         this.accommodations = accommodations;
     }
 
-    public List<DiningReservation> getDiningReservations() {
+    public DiningReservation getDiningReservations() {
         return diningReservations;
     }
 
-    public void setDiningReservations(List<DiningReservation> diningReservations) {
+    public void setDiningReservations(DiningReservation diningReservations) {
         this.diningReservations = diningReservations;
     }
-}
 
+    public String getTransportation() {
+        return transportation;
+    }
+
+    public void setTransportation(String transportation) {
+        this.transportation = transportation;
+    }
+}
