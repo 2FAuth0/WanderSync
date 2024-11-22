@@ -118,13 +118,13 @@
                 android:id="@+id/input_check_in"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Check-in Date (YYYY-MM-DD)" />
+                android:hint="Start Date (YYYY-MM-DD)" />
 
             <EditText
                 android:id="@+id/input_check_out"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Check-out Date (YYYY-MM-DD)" />
+                android:hint="End Date (YYYY-MM-DD)" />
 
             <!-- Label for Number of Rooms -->
             <TextView
