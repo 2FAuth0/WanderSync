@@ -39,6 +39,9 @@ public class DestinationFragment extends Fragment {
     private Button  buttonCancelLog;
     private Button  buttonSubmitLog;
     private Button  buttonOpenCalculateDurationForm;
+    private Button switchTripLeft;
+    private Button switchTripRight;
+    private Button addTrip;
     private LinearLayout logForm;
     private LinearLayout  calculateDurationForm;
     private EditText  inputLocation;
@@ -49,16 +52,15 @@ public class DestinationFragment extends Fragment {
     private EditText inputDuration;
     private RecyclerView recyclerTravelLogs;
     private DestinationViewModel destinationViewModel;
+    private int tripNumber = 0;
 
     public DestinationFragment() {
         // Required empty public constructor
     }
 
-    public static DestinationFragment newInstance(String param1, String param2) {
+    public static DestinationFragment newInstance() {
         DestinationFragment fragment = new DestinationFragment();
         Bundle args = new Bundle();
-        args.putString("param1", param1);
-        args.putString("param2", param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,10 +68,6 @@ public class DestinationFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            String mParam1 = getArguments().getString("param1");
-            String mParam2 = getArguments().getString("param2");
-        }
         destinationViewModel = new ViewModelProvider(this).get(DestinationViewModel.class);
     }
 
@@ -78,9 +76,6 @@ public class DestinationFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_destination, container, false);
-
-
-
         buttonOpenLogForm = view.findViewById(R.id.button_open_log_form);
         buttonCancelLog = view.findViewById(R.id.button_cancel_log);
         buttonSubmitLog = view.findViewById(R.id.button_submit_log);
@@ -88,25 +83,47 @@ public class DestinationFragment extends Fragment {
         buttonCalculateDuration = view.findViewById(R.id.button_calculate_duration);
         buttonOpenCalculateDurationForm =
                 view.findViewById(R.id.button_open_calculate_duration_form);
-
-
         logForm = view.findViewById(R.id.log_form);
         calculateDurationForm = view.findViewById(R.id.calculate_duration_form);
-
         inputLocation = view.findViewById(R.id.input_location);
         inputStartDate = view.findViewById(R.id.input_start_date);
         inputEndDate = view.findViewById(R.id.input_end_date);
-
         inputVacationStart = view.findViewById(R.id.vacation_start_date);
         inputVacationEnd = view.findViewById(R.id.vacation_end_date);
         inputDuration = view.findViewById(R.id.vacation_duration);
-
         recyclerTravelLogs = view.findViewById(R.id.recycler_travel_logs);
         recyclerTravelLogs.setLayoutManager(new LinearLayoutManager(getContext()));
-
         TravelLogAdapter adapter = new TravelLogAdapter(new ArrayList<>());
         recyclerTravelLogs.setAdapter(adapter);
+        switchTripLeft = view.findViewById(R.id.switchTripLeft);
+        switchTripRight = view.findViewById(R.id.switchTripRight);
+        addTrip = view.findViewById(R.id.addTrip);
+        switchTripRight.setOnClickListener(v -> {
+            tripNumber++;
+            destinationViewModel.changeActiveTrip(tripNumber);
+            destinationViewModel.getTravelLogs().observe(getViewLifecycleOwner(),
+                new Observer<List<TravelLog>>() {
+                    @Override
+                    public void onChanged(List<TravelLog> travelLogs) {
+                        adapter.setTravelLogs(travelLogs);
+                    }
+                });
+        });
+        switchTripLeft.setOnClickListener(v -> {
+            tripNumber--;
+            destinationViewModel.changeActiveTrip(tripNumber);
+            destinationViewModel.getTravelLogs().observe(getViewLifecycleOwner(),
+                new Observer<List<TravelLog>>() {
+                    @Override
+                    public void onChanged(List<TravelLog> travelLogs) {
+                        adapter.setTravelLogs(travelLogs);
+                    }
+                });
 
+        });
+        addTrip.setOnClickListener(v -> {
+            destinationViewModel.addTrip();
+        });
         destinationViewModel.getTravelLogs().observe(getViewLifecycleOwner(),
                 new Observer<List<TravelLog>>() {
                 @Override
@@ -114,8 +131,6 @@ public class DestinationFragment extends Fragment {
                     adapter.setTravelLogs(travelLogs);
                 }
             });
-
-
         // Setup button click listeners
         buttonOpenLogForm.setOnClickListener(v -> {
             if (logForm.getVisibility() == View.GONE) {
@@ -124,7 +139,6 @@ public class DestinationFragment extends Fragment {
                 logForm.setVisibility(View.GONE);
             }
         });
-
         buttonCancelLog.setOnClickListener(v -> {
             // Clear input fields and hide the form
             inputVacationStart.setText("");
@@ -132,18 +146,16 @@ public class DestinationFragment extends Fragment {
             inputEndDate.setText("");
             logForm.setVisibility(View.GONE);
         });
-
         buttonSubmitLog.setOnClickListener(v -> {
             String location = inputLocation.getText().toString();
             String startDate = inputStartDate.getText().toString();
             String endDate = inputEndDate.getText().toString();
             String duration = String.valueOf(calculateDuration(startDate, endDate));
-
-
             if (TextUtils.isEmpty(location)) {
                 Toast.makeText(getContext(), "Location cannot be empty", Toast.LENGTH_SHORT).show();
             } else if (areDatesValid(startDate, endDate)) {
-                destinationViewModel.addTravelLog(location, startDate, endDate, duration);
+                destinationViewModel.addTravelLog(
+                        tripNumber, location, startDate, endDate, duration);
 
                 logForm.setVisibility(View.GONE);
                 inputLocation.setText("");
@@ -151,7 +163,6 @@ public class DestinationFragment extends Fragment {
                 inputEndDate.setText("");
             }
         });
-
         buttonOpenCalculateDurationForm.setOnClickListener(v -> {
             if (calculateDurationForm.getVisibility() == View.GONE) {
                 calculateDurationForm.setVisibility(View.VISIBLE);
@@ -159,7 +170,6 @@ public class DestinationFragment extends Fragment {
                 calculateDurationForm.setVisibility(View.GONE);
             }
         });
-
         buttonCancelDuration.setOnClickListener(v -> {
             // Clear input fields and hide the form
             inputDuration.setText("");
@@ -167,19 +177,18 @@ public class DestinationFragment extends Fragment {
             inputVacationEnd.setText("");
             calculateDurationForm.setVisibility(View.GONE);
         });
-
         buttonCalculateDuration.setOnClickListener(v -> {
             String startDate = inputVacationStart.getText().toString();
             String endDate = inputVacationEnd.getText().toString();
             String durationStr = inputDuration.getText().toString();
             int duration = 0;
-            if (durationStr.equals("") && startDate.equals("")
-                    || durationStr.equals("") && endDate.equals("")
-                    || startDate.equals("") && endDate.equals("")) {
+            if (durationStr.isEmpty() && startDate.isEmpty()
+                    || durationStr.isEmpty() && endDate.isEmpty()
+                    || startDate.isEmpty() && endDate.isEmpty()) {
                 Toast.makeText(getContext(),
                         "Populate at least 2 fields to calculate dates or duration.",
                         Toast.LENGTH_SHORT).show();
-            } else if (durationStr.equals("")) {
+            } else if (durationStr.isEmpty()) {
                 duration = calculateDuration(startDate, endDate);
                 if (duration > 0) {
                     inputDuration.setText(String.valueOf(duration));
@@ -192,10 +201,10 @@ public class DestinationFragment extends Fragment {
                                 "Duration must be a positive whole number.",
                                 Toast.LENGTH_SHORT).show();
                     } else {
-                        if (startDate.equals("")) {
+                        if (startDate.isEmpty()) {
                             startDate = calculateDate(endDate, -1 * duration);
                             inputVacationStart.setText(startDate);
-                        } else if (endDate.equals("")) {
+                        } else if (endDate.isEmpty()) {
                             endDate = calculateDate(startDate, duration);
                             inputVacationEnd.setText(endDate);
                         }
@@ -206,11 +215,10 @@ public class DestinationFragment extends Fragment {
                 }
             }
 
-            if (!(durationStr.equals("") || startDate.equals("") || endDate.equals(""))) {
+            if (!(durationStr.isEmpty() || startDate.isEmpty() || endDate.isEmpty())) {
                 destinationViewModel.addVacationTime(startDate, endDate, duration);
             }
         });
-
         return view;
     }
 

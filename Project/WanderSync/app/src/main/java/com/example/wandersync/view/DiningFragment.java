@@ -44,6 +44,12 @@ public class DiningFragment extends Fragment {
     private int sortOrder = -1;
     private String mParam1;
     private String mParam2;
+
+    private Button switchTripLeft;
+    private Button switchTripRight;
+    private Button addTrip;
+    private int tripNumber = 0;
+
     private SimpleDateFormat sdf;
     private DiningViewModel diningViewModel;
     private List<DiningReservation> currentReservations = new ArrayList<>();
@@ -103,6 +109,40 @@ public class DiningFragment extends Fragment {
         DiningReservationAdapter adapter =
                 new DiningReservationAdapter(new ArrayList<>());
         recyclerDining.setAdapter(adapter);
+
+
+        switchTripLeft = view.findViewById(R.id.switchTripLeft);
+        switchTripRight = view.findViewById(R.id.switchTripRight);
+        addTrip = view.findViewById(R.id.addTrip);
+
+        switchTripRight.setOnClickListener(v -> {
+            tripNumber++;
+            diningViewModel.changeActiveTrip(tripNumber);
+            diningViewModel.getDiningReservations().observe(getViewLifecycleOwner(),
+                    diningReservations -> {
+                        Log.d("DiningFragment", "Number of reservations found:"
+                                + String.valueOf(diningReservations.size()));
+                        currentReservations = diningReservations;
+                        adapter.setDiningList(currentReservations);
+                    });
+        });
+        switchTripLeft.setOnClickListener(v -> {
+            tripNumber--;
+            diningViewModel.changeActiveTrip(tripNumber);
+            diningViewModel.getDiningReservations().observe(getViewLifecycleOwner(),
+                    diningReservations -> {
+                        Log.d("DiningFragment", "Number of reservations found:"
+                                + String.valueOf(diningReservations.size()));
+                        currentReservations = diningReservations;
+                        adapter.setDiningList(currentReservations);
+                    });
+
+        });
+        addTrip.setOnClickListener(v -> {
+            diningViewModel.addTrip();
+        });
+
+
 
         diningViewModel.getDiningReservations().observe(getViewLifecycleOwner(),
             diningReservations -> {

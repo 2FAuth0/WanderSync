@@ -40,12 +40,16 @@ public class LogisticsFragment extends Fragment {
     private EditText userToInvite;
     private Button addNote;
     private Button sendInvite;
+    private Button switchTripLeft;
+    private Button switchTripRight;
+    private Button addTrip;
     private LinearLayout notesForm;
     private LinearLayout inviteForm;
     private RecyclerView recyclerContributors;
     private NoteAdapter contributorAdapter;
     private RecyclerView recyclerNotes;
     private NoteAdapter notesAdapter;
+    private int tripNumber = 0;
 
 
     public LogisticsFragment() {
@@ -68,7 +72,7 @@ public class LogisticsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_logistics_edit, container, false);
+        View view = inflater.inflate(R.layout.fragment_logistics, container, false);
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         notesText = view.findViewById(R.id.enter_notes);
@@ -79,6 +83,35 @@ public class LogisticsFragment extends Fragment {
         notesForm = view.findViewById(R.id.add_notes_form);
         inviteForm = view.findViewById(R.id.invite_users_form);
 
+        switchTripLeft = view.findViewById(R.id.switchTripLeft);
+        switchTripRight = view.findViewById(R.id.switchTripRight);
+        addTrip = view.findViewById(R.id.addTrip);
+
+        switchTripRight.setOnClickListener(v -> {
+            tripNumber++;
+            destinationViewModel.changeActiveTrip(tripNumber);
+            destinationViewModel.getContributors().observe(
+                    getViewLifecycleOwner(), contributors -> {
+                        contributorAdapter.setContributors(contributors);
+                    });
+            destinationViewModel.getNotes().observe(getViewLifecycleOwner(), notes -> {
+                notesAdapter.setContributors(notes);
+            });
+        });
+        switchTripLeft.setOnClickListener(v -> {
+            tripNumber--;
+            destinationViewModel.changeActiveTrip(tripNumber);
+            destinationViewModel.getContributors().observe(
+                    getViewLifecycleOwner(), contributors -> {
+                        contributorAdapter.setContributors(contributors);
+                    });
+            destinationViewModel.getNotes().observe(getViewLifecycleOwner(), notes -> {
+                notesAdapter.setContributors(notes);
+            });
+        });
+        addTrip.setOnClickListener(v -> {
+            destinationViewModel.addTrip();
+        });
 
         recyclerContributors = view.findViewById(R.id.trip_contributors);
         recyclerContributors.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -111,10 +144,11 @@ public class LogisticsFragment extends Fragment {
             }
         });
         sendInvite.setOnClickListener(v -> {
-            destinationViewModel.addUserToTrip(String.valueOf(userToInvite.getText()));
+            destinationViewModel.addUserToTrip(String.valueOf(userToInvite.getText()), tripNumber);
             inviteForm.setVisibility(View.GONE);
             userToInvite.setText("");
         });
+
 
 
         takeNotes = view.findViewById(R.id.add_notes);
@@ -129,7 +163,7 @@ public class LogisticsFragment extends Fragment {
             }
         });
         addNote.setOnClickListener(v -> {
-            destinationViewModel.addNote(String.valueOf(notesText.getText()));
+            destinationViewModel.addNote(String.valueOf(notesText.getText()), tripNumber);
             notesForm.setVisibility(View.GONE);
             notesText.setText("");
         });

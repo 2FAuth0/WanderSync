@@ -54,6 +54,11 @@ public class AccomodationFragment extends Fragment {
     private EditText inputLocation;
     private EditText inputCheckIn;
     private EditText inputCheckOut;
+    private Button switchTripLeft;
+    private Button switchTripRight;
+    private Button addTrip;
+
+    private int tripNumber = 0;
     private AccommodationViewModel accommodationViewModel;
     private RecyclerView recyclerAccommodations;
     private SimpleDateFormat sdf;
@@ -111,6 +116,39 @@ public class AccomodationFragment extends Fragment {
                     currentReservations = accommodationReservations;
                     adapter.setAccommodationList(accommodationReservations);
                 });
+
+        switchTripLeft = view.findViewById(R.id.switchTripLeft);
+        switchTripRight = view.findViewById(R.id.switchTripRight);
+        addTrip = view.findViewById(R.id.addTrip);
+
+        switchTripRight.setOnClickListener(v -> {
+            tripNumber++;
+            accommodationViewModel.changeActiveTrip(tripNumber);
+            accommodationViewModel.getAccommodationReservations().observe(getViewLifecycleOwner(),
+                    accommodationReservations -> {
+                        Log.d("AccommodationFragment", "Number of reservations found:"
+                                + String.valueOf(accommodationReservations.size()));
+                        currentReservations = accommodationReservations;
+                        adapter.setAccommodationList(accommodationReservations);
+                    });
+        });
+        switchTripLeft.setOnClickListener(v -> {
+            tripNumber--;
+            accommodationViewModel.changeActiveTrip(tripNumber);
+            accommodationViewModel.getAccommodationReservations().observe(getViewLifecycleOwner(),
+                    accommodationReservations -> {
+                        Log.d("AccommodationFragment", "Number of reservations found:"
+                                + String.valueOf(accommodationReservations.size()));
+                        currentReservations = accommodationReservations;
+                        adapter.setAccommodationList(accommodationReservations);
+                    });
+
+        });
+        addTrip.setOnClickListener(v -> {
+            accommodationViewModel.addTrip();
+        });
+
+
 
         ImageButton sortButton = view.findViewById(R.id.button_sort_accommodations);
 

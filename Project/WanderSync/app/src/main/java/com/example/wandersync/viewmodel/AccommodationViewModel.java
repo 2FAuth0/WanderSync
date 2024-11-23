@@ -63,6 +63,36 @@ public class AccommodationViewModel extends ViewModel {
             }));
     }
 
+    public void changeActiveTrip(int tripNumber) {
+        tripLiveData = Transformations.switchMap(userLiveData, user -> {
+            if (user != null && user.getTripID() != null) {
+                return tripDatabase.getTripDataByID(
+                        user.getTrips().get(tripNumber % user.getTrips().size()));
+            }
+            return new MutableLiveData<>(null);
+        });
+
+        tripAccomodationsLiveData = Transformations.switchMap(tripLiveData, trip ->
+            Transformations.map(accommodationReservationsLiveData, accommodationReservations -> {
+                List<AccommodationReservation> filteredReservations = new ArrayList<>();
+                if (trip != null && trip.getAccommodationReservations() != null) {
+                    for (AccommodationReservation reservation : accommodationReservations) {
+                        if (trip.getAccommodationReservations().contains(reservation.getId())) {
+                            filteredReservations.add(reservation);
+                        }
+                    }
+                }
+                return filteredReservations;
+            }));
+    }
+
+    public void addTrip() {
+        User currentUser = userLiveData.getValue();
+        String tripID = tripDatabase.addTrip(currentUser.getEmail());
+        currentUser.addTrip(tripID);
+        userDatabase.updateUser(currentUser);
+    }
+
     // Method to add a new accommodation reservation
     public void addAccommodationReservation(String location, String checkIn,
                                             String checkOut, String numRooms, String roomType) {
