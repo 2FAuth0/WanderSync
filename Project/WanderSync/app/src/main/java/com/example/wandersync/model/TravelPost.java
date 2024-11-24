@@ -1,21 +1,25 @@
 package com.example.wandersync.model;
 
+import java.util.List;
+
 public class TravelPost {
     private String id; // Unique identifier
-    private TravelLog travelLog;
-    private AccommodationReservation accommodations;
-    private DiningReservation diningReservations;
-    private String transportation;
+    private List<TravelLog> travelLogs;
+    private List<AccommodationReservation> accommodations;
+    private List<DiningReservation> diningReservations;
+    private List<String> transportation;
     private String notes;
 
     public TravelPost() {
         // Default constructor required for firebase
     }
 
-    public TravelPost(String id, TravelLog travelLog, AccommodationReservation accommodations,
-                      DiningReservation diningReservations, String transportation, String notes) {
+    public TravelPost(String id, List<TravelLog> travelLog,
+                      List<AccommodationReservation> accommodations,
+                      List<DiningReservation> diningReservations,
+                      List<String> transportation, String notes) {
         this.id = id;
-        this.travelLog = travelLog;
+        this.travelLogs = travelLog;
         this.accommodations = accommodations;
         this.diningReservations = diningReservations;
         this.transportation = transportation;
@@ -24,6 +28,7 @@ public class TravelPost {
     }
 
     // Getters and Setters
+
     public String getId() {
         return id;
     }
@@ -32,35 +37,35 @@ public class TravelPost {
         this.id = id;
     }
 
-    public TravelLog getTravelLog() {
-        return travelLog;
+    public List<TravelLog> getTravelLogs() {
+        return travelLogs;
     }
 
-    public void setTravelLog(TravelLog travelLog) {
-        this.travelLog = travelLog;
+    public void setTravelLogs(List<TravelLog> travelLogs) {
+        this.travelLogs = travelLogs;
     }
 
-    public AccommodationReservation getAccommodations() {
+    public List<AccommodationReservation> getAccommodations() {
         return accommodations;
     }
 
-    public void setAccommodations(AccommodationReservation accommodations) {
+    public void setAccommodations(List<AccommodationReservation> accommodations) {
         this.accommodations = accommodations;
     }
 
-    public DiningReservation getDiningReservations() {
+    public List<DiningReservation> getDiningReservations() {
         return diningReservations;
     }
 
-    public void setDiningReservations(DiningReservation diningReservations) {
+    public void setDiningReservations(List<DiningReservation> diningReservations) {
         this.diningReservations = diningReservations;
     }
 
-    public String getTransportation() {
+    public List<String> getTransportation() {
         return transportation;
     }
 
-    public void setTransportation(String transportation) {
+    public void setTransportation(List<String> transportation) {
         this.transportation = transportation;
     }
 
