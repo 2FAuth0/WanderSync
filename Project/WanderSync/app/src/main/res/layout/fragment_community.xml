@@ -21,8 +21,6 @@
         android:layout_height="match_parent"
         android:layout_marginTop="56dp">
 
-
-
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="598dp"
@@ -62,7 +60,6 @@
                         android:src="@drawable/sort" />
                 </FrameLayout>
 
-                <!-- RecyclerView for Upcoming Reservations -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyler_travel_posts"
                     android:layout_width="match_parent"
@@ -70,11 +67,8 @@
                     android:layout_marginTop="16dp"
                     android:nestedScrollingEnabled="false" />
 
-                <!-- RecyclerView for Past Reservations -->
-
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/button_open_accomodation_form"
@@ -86,7 +80,6 @@
             android:layout_marginBottom="100dp"
             android:layout_marginRight="16dp" />
 
-        <!-- Form for New Accommodation Entry -->
         <LinearLayout
             android:id="@+id/travel_post_form"
             android:layout_width="match_parent"
@@ -120,24 +113,39 @@
                 android:layout_height="wrap_content"
                 android:hint="Check-out Date (YYYY-MM-DD)" />
 
-
             <EditText
                 android:id="@+id/input_destination"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Destination" />
 
-            <EditText
-                android:id="@+id/input_accommodations"
+            <Button
+                android:id="@+id/button_add_accommodation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Tell us about your Accommodations" />
+                android:text="Add Accommodation"
+                android:layout_marginTop="8dp" />
 
-            <EditText
-                android:id="@+id/input_dining_reservations"
+            <TextView
+                android:id="@+id/text_accommodations"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Tell us about your Dining Reservations" />
+                android:hint="Added accommodations will appear here"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/button_add_dining"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add Dining Reservation"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/text_dining_reservations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Added dining reservations will appear here"
+                android:layout_marginTop="8dp" />
 
             <EditText
                 android:id="@+id/input_notes"
@@ -152,13 +160,102 @@
                 android:hint="What was your transportation" />
 
             <Button
-                android:id="@+id/button_add_accommodation"
+                android:id="@+id/button_post_travel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Post Travel"
                 android:layout_marginTop="16dp" />
 
         </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <LinearLayout
+            android:id="@+id/accommodation_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@android:color/white"
+            android:visibility="gone"
+            android:elevation="8dp"
+            android:layout_gravity="center"
+            tools:ignore="MissingConstraints">
+
+            <EditText
+                android:id="@+id/input_accommodation_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Location" />
+
+            <EditText
+                android:id="@+id/input_accommodation_check_in"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Check-in Date (YYYY-MM-DD)" />
+
+            <EditText
+                android:id="@+id/input_accommodation_check_out"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Check-out Date (YYYY-MM-DD)" />
+
+            <EditText
+                android:id="@+id/input_accommodation_num_rooms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Number of Rooms" />
+
+            <EditText
+                android:id="@+id/input_accommodation_room_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Room Type" />
+
+            <Button
+                android:id="@+id/button_save_accommodation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Save Accommodation"
+                android:layout_marginTop="16dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dining_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@android:color/white"
+            android:visibility="gone"
+            android:elevation="8dp"
+            android:layout_gravity="center"
+            tools:ignore="MissingConstraints">
+
+            <EditText
+                android:id="@+id/input_dining_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Location" />
+
+            <EditText
+                android:id="@+id/input_dining_timing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Timing" />
+
+            <EditText
+                android:id="@+id/input_dining_website"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Website" />
+
+            <Button
+                android:id="@+id/button_save_dining"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Save Dining Reservation"
+                android:layout_marginTop="16dp" />
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

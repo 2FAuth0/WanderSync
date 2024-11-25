@@ -1,65 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
 
-    <EditText
-        android:id="@+id/edit_text_username"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Username"
-        android:inputType="text"
-        android:layout_marginBottom="16dp"/>
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <EditText
-        android:id="@+id/edit_text_destination"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Destination"
-        android:inputType="text"
-        android:layout_marginBottom="8dp"/>
+        <TextView
+            android:id="@+id/text_view_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp"/>
 
-    <EditText
-        android:id="@+id/edit_text_check_in_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Check-in Date"
-        android:inputType="date"
-        android:layout_marginBottom="8dp"/>
+        <TextView
+            android:id="@+id/text_view_destination"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp"/>
 
-    <EditText
-        android:id="@+id/edit_text_check_out_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Check-out Date"
-        android:inputType="date"
-        android:layout_marginBottom="8dp"/>
+        <TextView
+            android:id="@+id/text_view_dates"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp"/>
 
-    <EditText
-        android:id="@+id/edit_text_accommodations"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Accommodations"
-        android:inputType="text"
-        android:layout_marginBottom="8dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Accommodations"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"/>
 
-    <EditText
-        android:id="@+id/edit_text_dining_reservations"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Dining Reservations"
-        android:inputType="text"
-        android:layout_marginBottom="8dp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_accommodations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"/>
 
-    <EditText
-        android:id="@+id/edit_text_trip_notes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Trip Notes"
-        android:inputType="textMultiLine"
-        android:lines="3"
-        android:gravity="top"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dining Reservations"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"/>
 
-</LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_dining"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"/>
+
+        <TextView
+            android:id="@+id/text_view_trip_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"/>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
