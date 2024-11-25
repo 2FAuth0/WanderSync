@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/edit_text_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Username"
+        android:inputType="text"
+        android:layout_marginBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/edit_text_destination"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Destination"
+        android:inputType="text"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/edit_text_check_in_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Check-in Date"
+        android:inputType="date"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/edit_text_check_out_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Check-out Date"
+        android:inputType="date"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/edit_text_accommodations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Accommodations"
+        android:inputType="text"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/edit_text_dining_reservations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Dining Reservations"
+        android:inputType="text"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/edit_text_trip_notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Trip Notes"
+        android:inputType="textMultiLine"
+        android:lines="3"
+        android:gravity="top"/>
+
+</LinearLayout>
