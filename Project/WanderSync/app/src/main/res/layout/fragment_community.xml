@@ -145,6 +145,12 @@
                 android:layout_height="wrap_content"
                 android:hint="Notes about your trip" />
 
+            <EditText
+                android:id="@+id/input_transportation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="What was your transportation" />
+
             <Button
                 android:id="@+id/button_add_accommodation"
                 android:layout_width="match_parent"
