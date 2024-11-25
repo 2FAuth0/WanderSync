@@ -45,8 +45,11 @@ This design pattern not only adheres to the principles of high cohesion and low 
 
 ## User Interface
 
-From start to finish, the app’s user flow can be seen through the screenshots below. The user starts on a welcome screen where they can log in as either an existing user or as a new user. If a new user is created, it is added to our database along with relevant fields. There are 5 screens for the user to go through. The logistics screen is where the user can invite other users and have a bulletin board of shared notes. The dining screen is where users can insert upcoming or past restaurant reservations, which they can sort as well. The Destination screen logs trips and helps users calculate how long their trips are given at least 2 of 3 fields (start, end, duration). The accommodation screen has similar interface as the dining where users can insert hotel reservations and sort them by date. Finally, the travel community screen is used to share successful trips and interact with other users in the WanderSync community! 
- > Images of screens
+From start to finish, the app’s user flow can be seen through the screenshots below. The user starts on a welcome screen where they can log in as either an existing user or as a new user. If a new user is created, it is added to our database along with relevant fields. There are 5 screens for the user to go through. The logistics screen is where the user can invite other users and have a bulletin board of shared notes. The dining screen is where users can insert upcoming or past restaurant reservations, which they can sort as well. The Destination screen logs trips and helps users calculate how long their trips are given at least 2 of 3 fields (start, end, duration). The accommodation screen has similar interface as the dining where users can insert hotel reservations and sort them by date. Finally, the travel community screen is used to share successful trips and interact with other users in the WanderSync community!
+
+ <img src="pagesImages/welcomescreen.png" alt="Welcome Screen" width="200"/> <img src="pagesImages/createaccount.png" alt="Create an Account" width="200"/> <img src="pagesImages/logistics.png" alt="Logistics Landing" width="200"/> <img src="pagesImages/dining.png" alt="Dining Screen" width="200"/> 
+ 
+ <img src="pagesImages/diningreservation.png" alt="Add Dining Reservation" width="200"/> <img src="pagesImages/logvacation1.png" alt="Log Vacation" width="200"/> <img src="pagesImages/logvacation2.png" alt="Vacation Logged" width="200"/> <img src="pagesImages/accommodations.png" alt="Accommodations Screen" width="200"/>
 
 # Functionality
 
