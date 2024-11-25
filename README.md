@@ -18,7 +18,7 @@ User flow interactions were best drawn up before implementation of the app to ge
 
 Below is the Sequence Diagram for the process of "Creating a New Travel Log."
 
-> Image of SD
+<img src="pagesImages/sd.png" alt="Sequence Diagram" width="900"/>
 
 The use case is to allow a user to create a new travel log entry within the app. The user specifies details such as location, start date, end date, and duration of the trip. The application then generates a unique travel log entry associated with the user’s account and saves it in the database. This use case demonstrates the interactions involved in setting up, creating, and storing a new travel log entry in the system. 
 
@@ -41,7 +41,9 @@ Central to the domain layer are the Trip and User classes, which encapsulate key
 
 This design pattern not only adheres to the principles of high cohesion and low coupling but also promotes extensibility. For instance, adding a new feature, such as managing additional types of reservations, would only require a new database and ViewModel class, leaving the existing architecture intact. By relying on LiveData for reactive updates and ViewModels for stateful logic, this project exemplifies the use of modern, scalable architectural patterns.
 
-> Image of DCD
+<img src="pagesImages/dcd1.png" alt="Design Class Diagram 1" width="900"/>
+<img src="pagesImages/dcd2.png" alt="Design Class Diagram 2" width="900"/>
+<img src="pagesImages/dcd3.png" alt="Design Class Diagram 3" width="900"/>
 
 ## User Interface
 
@@ -51,15 +53,17 @@ From start to finish, the app’s user flow can be seen through the screenshots 
  
  <img src="pagesImages/diningreservation.png" alt="Add Dining Reservation" width="200"/> <img src="pagesImages/logvacation1.png" alt="Log Vacation" width="200"/> <img src="pagesImages/logvacation2.png" alt="Vacation Logged" width="200"/> <img src="pagesImages/accommodations.png" alt="Accommodations Screen" width="200"/>
 
-# Functionality
+## Functionality
 
 As seen in the video the app starts with a splash screen to welcome users to the app and gives existing members to log in and new members to create new login credentials. There is proper input validation for everything. Once in the app, the user can interact with the elements to fulfill their aforementioned needs and inputs are dynamically updated in the video as seen. Shared trips are visible to all users, as we can observe from two different accounts. Overall, a great app to use to plan your next trip!
 
 [![Group 13 WanderSync Demo](https://img.youtube.com/vi/GrxsLDHdo24/0.jpg)](https://www.youtube.com/shorts/GrxsLDHdo24)
 
 
-# Conclusions and Reflections/Learning
+## Conclusions and Reflections/Learning
 
-# Contributors
+In all, this project was a wonderful opportunity to learn app development via Android Studio while maintaining the structure of a small software development team. The structure of Sprints was crucial to getting exposure to real world development in companies. Throughout the sprints, each member understood what functionality they oversaw and what worked well with the app overall as it ensured the functionality would be completed. Sometimes, we could have improved our collaboration by keeping small, but consistent efforts to communicate with on another from the beginning of the Sprint rather than focusing our communication towards the end. However, the final product is still amazing and the team dynamic was very unique to the indivdual work cultures of other class curriculumns. Overall, it was a successful semester of app development.
+
+## Contributors
 
 During the semester, Team 13 worked on developing WanderSync. The members are Abhinaya (Abhi) Karthana, Rohit Hari, Justin Cruz, and Varun Giridhar. All information on the website is also from all members collaborating on displaying the website.
