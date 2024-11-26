@@ -7,17 +7,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.wandersync.R;
-import com.example.wandersync.model.AccommodationReservation;
-import com.example.wandersync.model.TravelLog;
 import com.example.wandersync.model.TravelPost;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
-public class TravelPostAdapter extends RecyclerView.Adapter<TravelPostAdapter.TravelPostViewHolder> {
+public class TravelPostAdapter
+        extends RecyclerView.Adapter<TravelPostAdapter.TravelPostViewHolder> {
 
     private List<TravelPost> travelPosts;
 
@@ -42,11 +37,20 @@ public class TravelPostAdapter extends RecyclerView.Adapter<TravelPostAdapter.Tr
     public void onBindViewHolder(@NonNull TravelPostViewHolder holder, int position) {
         TravelPost travelPost = travelPosts.get(position);
         holder.username.setText(travelPost.getId());
-        holder.checkInDate.setText("Check-in: ");  // TODO: database mismatch
-        holder.checkOutDate.setText("Check-out:"); // TODO: database mismatch
-        holder.accommodations.setText("Accommodations: "); // TODO: database mismatch
-        holder.diningReservations.setText("Dining: "); // TODO: database mismatch
+        holder.destination.setText(travelPost.getDestination());
         holder.tripNotes.setText(travelPost.getNotes());
+
+        AccommodationReservationAdapter accommodationAdapter
+                = new AccommodationReservationAdapter(travelPost.getAccommodations());
+        holder.accommodationsRecyclerView.setAdapter(accommodationAdapter);
+        holder.accommodationsRecyclerView.setLayoutManager(
+                new LinearLayoutManager(holder.itemView.getContext()));
+
+        DiningReservationAdapter diningAdapter
+                = new DiningReservationAdapter(travelPost.getDiningReservations());
+        holder.diningRecyclerView.setAdapter(diningAdapter);
+        holder.diningRecyclerView.setLayoutManager(
+                new LinearLayoutManager(holder.itemView.getContext()));
     }
 
     @Override
@@ -57,30 +61,19 @@ public class TravelPostAdapter extends RecyclerView.Adapter<TravelPostAdapter.Tr
     static class TravelPostViewHolder extends RecyclerView.ViewHolder {
         private TextView username;
         private TextView destination;
-        private TextView checkInDate;
-        private TextView checkOutDate;
-        private TextView accommodations;
-        private TextView diningReservations;
+        private TextView dates;
+        private RecyclerView accommodationsRecyclerView;
+        private RecyclerView diningRecyclerView;
         private TextView tripNotes;
 
         TravelPostViewHolder(@NonNull View itemView) {
             super(itemView);
-            username = itemView.findViewById(R.id.edit_text_username);
-            destination = itemView.findViewById(R.id.edit_text_destination);
-            checkInDate = itemView.findViewById(R.id.edit_text_check_in_date);
-            checkOutDate = itemView.findViewById(R.id.edit_text_check_out_date);
-            accommodations = itemView.findViewById(R.id.edit_text_accommodations);
-            diningReservations = itemView.findViewById(R.id.edit_text_dining_reservations);
-            tripNotes = itemView.findViewById(R.id.edit_text_trip_notes);
+            username = itemView.findViewById(R.id.text_view_username);
+            destination = itemView.findViewById(R.id.text_view_destination);
+            dates = itemView.findViewById(R.id.text_view_dates);
+            accommodationsRecyclerView = itemView.findViewById(R.id.recycler_view_accommodations);
+            diningRecyclerView = itemView.findViewById(R.id.recycler_view_dining);
+            tripNotes = itemView.findViewById(R.id.text_view_trip_notes);
         }
-
-//        public TextView getTextViewLocation() {
-//            return textViewLocation;
-//        }
-//
-//        public TextView getTextViewDuration() {
-//            return textViewDuration;
-//        }
-//    }
     }
 }
